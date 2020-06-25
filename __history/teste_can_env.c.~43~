@@ -1,0 +1,88 @@
+#include <teste_can_env.h>
+#include <can-mcp2515.c>
+#include <placa_plus.h>
+
+
+#define MASTER 200
+#define RECEPTOR1 303
+
+//interrupções
+enum {CAN_RX0_INT=1,CAN_RX1_INT=2,CAN_TX0_INT=4,CAN_TX1_INT=8,CAN_TX2_INT=16,CAN_ERROR_INT=32,CAN_WAKE_INT=64,CAN_MESERR_INT=128};
+void trata_interr()
+{
+   int int_id = mcp2510_read(CANINTF);
+   mcp2510_bitmodify(CANINTF,int_id,0x00);
+   
+   flag_interr = 0b0;
+   
+   if(int_id & CAN_MESERR_INT)
+   {
+      //output_low(MCLR);
+   }
+   
+   
+   //else if(int_id & CAN_WAKE_INT) {}
+   //else if(int_id & CAN_ERROR_INT) {}
+   //else if(int_id & CAN_TX2_INT) {}
+   //else if(int_id & CAN_TX1_INT) {}
+   //else if(int_id & CAN_TX0_INT) {}
+   //else if(int_id & CAN_RX1_INT) {}
+   //else if(int_id & CAN_RX0_INT) {}
+}
+
+
+void main()
+{             
+   int8 dadosEnv[8] = {0xCC,0xDD};
+
+   //VEJA placa_plus.h
+   set_tris_a(0b00001100);
+   set_tris_c(0b00000010);
+   output_low(LED1);
+   output_low(LED2);
+   
+   output_high(LED1);
+   delay_ms(200);
+   output_low(LED1);
+   delay_ms(200);
+   output_high(LED1);
+   delay_ms(200);
+   output_low(LED1);
+   delay_ms(200);
+ 
+   can_init();
+
+   can_set_interr(0x80);//tx0 e mserr
+   
+//===========REGISTRADORES===================================
+   disable_interrupts(GLOBAL);                 // habilitar interr global
+   enable_interrupts(INT_EXT_H2L);             // interrupção CAN
+   //setup_timer_1(T1_INTERNAL | T1_DIV_BY_1);   // setar timer1 para interno
+   //enable_interrupts(INT_TIMER1);              // habilita Timer1 
+   //set_timer1(0);                              // limpar flag TMR1H & TMR1L 
+   //counter=int_per_sec;
+   enable_interrupts(GLOBAL);                  // habilitar interr global
+//----------------------------------------------------------
+
+   while(TRUE)
+   {
+      delay_ms(500);     
+      
+      //flag_interr ? (trata_interr()) : (output_high(MCLR));
+      
+      if(!input(pin_a0))
+      {
+         delay_ms(100);
+         if(!input(pin_a0)) {dadosEnv[0] = 0xBB;}    
+      }
+      else {dadosEnv[0] = 0xAA;}
+      
+      
+      can_putd(200,dadosEnv,2,0,0,0); 
+      delay_ms(10);
+      
+      output_toggle(PIN_A1);
+   }
+}
+
+

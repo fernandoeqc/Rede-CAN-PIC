@@ -1,0 +1,12 @@
+>>> Warning 202 "C:\Users\fernandoLab\Google Drive\Fernando_Lab\V3\CCS\headers\placa_plus.h" Line 26(25,39): Variable never used:   erro_nao_trans
+>>> Warning 202 "C:\Users\fernandoLab\Google Drive\Fernando_Lab\V3\CCS\headers\placa_plus.h" Line 27(25,33): Variable never used:   erro_mcp
+>>> Warning 202 "C:\Users\fernandoLab\Google Drive\Fernando_Lab\V3\CCS\headers\placa_plus.h" Line 29(25,37): Variable never used:   horas_ligado
+>>> Warning 202 "C:\Users\fernandoLab\Google Drive\Fernando_Lab\V3\CCS\headers\placa_plus.h" Line 37(24,32): Variable never used:   uma_hora
+>>> Warning 202 "C:\Users\fernandoLab\Google Drive\Fernando_Lab\V3\CCS\headers\placa_plus.h" Line 39(24,34): Variable never used:   flag_envio
+>>> Warning 202 "C:\Users\fernandoLab\Google Drive\Fernando_Lab\V3\CCS\headers\placa_plus.h" Line 41(24,43): Variable never used:   erro_nao_trans_flag
+>>> Warning 202 "C:\Users\fernandoLab\Google Drive\Fernando_Lab\V3\CCS\headers\placa_plus.h" Line 42(24,37): Variable never used:   erro_mcp_flag
+>>> Warning 202 "teste_can_rec.c" Line 12(10,15): Variable never used:   tx_id
+>>> Warning 202 "teste_can_rec.c" Line 15(9,17): Variable never used:   dadosEnv
+      Memory usage:   ROM=79%      RAM=21% - 84%
+      0 Errors,  9 Warnings.
+Build Successful.

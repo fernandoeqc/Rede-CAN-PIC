@@ -1,0 +1,117 @@
+ÀÄteste_can_env
+   ÃÄMAIN  0/197  Ram=8
+   ³  ÃÄ@cinit1  (Inline)  Ram=0
+   ³  ÃÄ@delay_ms1  0/22  Ram=1
+   ³  ÃÄ@delay_ms1  0/22  Ram=1
+   ³  ÃÄ@delay_ms1  0/22  Ram=1
+   ³  ÃÄ@delay_ms1  0/22  Ram=1
+   ³  ÃÄcan_init  0/181  Ram=1
+   ³  ³  ÃÄmcp2510_init  (Inline)  Ram=0
+   ³  ³  ³  ÃÄmcp2510_command  (Inline)  Ram=1
+   ³  ³  ³  ³  ÀÄ@SPI_XFER_1  0/42  Ram=5
+   ³  ³  ³  ÀÄ@delay_ms1  0/22  Ram=1
+   ³  ³  ÃÄcan_set_mode  0/51  Ram=4
+   ³  ³  ³  ÃÄmcp2510_read  0/29  Ram=2
+   ³  ³  ³  ³  ÃÄ@SPI_XFER_1  0/42  Ram=5
+   ³  ³  ³  ³  ÃÄ@SPI_XFER_1  0/42  Ram=5
+   ³  ³  ³  ³  ÀÄ@SPI_XFER_1  0/42  Ram=5
+   ³  ³  ³  ÃÄ@MEMSET  0/8  Ram=0
+   ³  ³  ³  ÃÄmcp2510_write  0/26  Ram=2
+   ³  ³  ³  ³  ÃÄ@SPI_XFER_1  0/42  Ram=5
+   ³  ³  ³  ³  ÃÄ@SPI_XFER_1  0/42  Ram=5
+   ³  ³  ³  ³  ÀÄ@SPI_XFER_1  0/42  Ram=5
+   ³  ³  ³  ÃÄmcp2510_read  0/29  Ram=2
+   ³  ³  ³  ³  ÀÄ*
+   ³  ³  ³  ÀÄ@MEMSET  0/8  Ram=0
+   ³  ³  ÃÄcan_set_baud  (Inline)  Ram=3
+   ³  ³  ³  ÃÄmcp2510_write  0/26  Ram=2
+   ³  ³  ³  ³  ÀÄ*
+   ³  ³  ³  ÃÄmcp2510_write  0/26  Ram=2
+   ³  ³  ³  ³  ÀÄ*
+   ³  ³  ³  ÀÄmcp2510_write  0/26  Ram=2
+   ³  ³  ³     ÀÄ*
+   ³  ³  ÃÄ@MEMSET  0/8  Ram=0
+   ³  ³  ÃÄmcp2510_write  0/26  Ram=2
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄmcp2510_write  0/26  Ram=2
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄcan_set_id  0/179  Ram=16
+   ³  ³  ³  ÃÄmcp2510_write  0/26  Ram=2
+   ³  ³  ³  ³  ÀÄ*
+   ³  ³  ³  ÃÄmcp2510_write  0/26  Ram=2
+   ³  ³  ³  ³  ÀÄ*
+   ³  ³  ³  ÃÄmcp2510_write  0/26  Ram=2
+   ³  ³  ³  ³  ÀÄ*
+   ³  ³  ³  ÀÄmcp2510_write  0/26  Ram=2
+   ³  ³  ³     ÀÄ*
+   ³  ³  ÃÄcan_set_id  0/179  Ram=16
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄcan_set_id  0/179  Ram=16
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄcan_set_id  0/179  Ram=16
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄcan_set_id  0/179  Ram=16
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄcan_set_id  0/179  Ram=16
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄcan_set_id  0/179  Ram=16
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄcan_set_id  0/179  Ram=16
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÀÄcan_set_mode  0/51  Ram=4
+   ³  ³     ÀÄ*
+   ³  ÃÄcan_set_mode  0/51  Ram=4
+   ³  ³  ÀÄ*
+   ³  ÃÄcan_set_interr  0/7  Ram=1
+   ³  ³  ÀÄmcp2510_write  0/26  Ram=2
+   ³  ³     ÀÄ*
+   ³  ÃÄcan_set_mode  0/51  Ram=4
+   ³  ³  ÀÄ*
+   ³  ÃÄtrata_interr  0/99  Ram=4
+   ³  ³  ÃÄmcp2510_read  0/29  Ram=2
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÀÄmcp2510_bitmodify  (Inline)  Ram=3
+   ³  ³     ÃÄ@SPI_XFER_1  0/42  Ram=5
+   ³  ³     ÃÄ@SPI_XFER_1  0/42  Ram=5
+   ³  ³     ÃÄ@SPI_XFER_1  0/42  Ram=5
+   ³  ³     ÀÄ@SPI_XFER_1  0/42  Ram=5
+   ³  ÃÄpiscaLed  0/53  Ram=6
+   ³  ³  ÃÄ@WRITEBITA  0/32  Ram=6
+   ³  ³  ÃÄ@WRITEBITA  0/32  Ram=6
+   ³  ³  ÃÄ@delay_ms1  0/22  Ram=1
+   ³  ³  ÃÄ@WRITEBITA  0/32  Ram=6
+   ³  ³  ÃÄ@WRITEBITA  0/32  Ram=6
+   ³  ³  ÃÄ@delay_ms1  0/22  Ram=1
+   ³  ³  ÀÄ@delay_ms1  0/22  Ram=1
+   ³  ÃÄcan_putd  0/188  Ram=22
+   ³  ³  ÃÄmcp2510_read  0/29  Ram=2
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄ@MEMSET  0/8  Ram=0
+   ³  ³  ÃÄmcp2510_read  0/29  Ram=2
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄ@MEMSET  0/8  Ram=0
+   ³  ³  ÃÄmcp2510_read  0/29  Ram=2
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄ@MEMSET  0/8  Ram=0
+   ³  ³  ÃÄmcp2510_read  0/29  Ram=2
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄ@MEMSET  0/8  Ram=0
+   ³  ³  ÃÄmcp2510_write  0/26  Ram=2
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄcan_set_id  0/179  Ram=16
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄ@MEMSET  0/8  Ram=0
+   ³  ³  ÃÄmcp2510_write  0/26  Ram=2
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄmcp2510_write  0/26  Ram=2
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄmcp2510_read  0/29  Ram=2
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄ@MEMSET  0/8  Ram=0
+   ³  ³  ÀÄmcp2510_write  0/26  Ram=2
+   ³  ³     ÀÄ*
+   ³  ÃÄ@delay_ms1  0/22  Ram=1
+   ³  ÀÄpiscaLed  0/53  Ram=6
+   ³     ÀÄ*
+   ÃÄtimer1_isr  0/25  Ram=0
+   ÀÄexternal_can_interrupt  0/4  Ram=0
