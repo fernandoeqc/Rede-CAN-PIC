@@ -1,7 +1,6 @@
-#History
-**/__history
-**/.vscode
-**/
+#Dir
+__history/
+.vscode/
 
 # Outputs
 *.cof
