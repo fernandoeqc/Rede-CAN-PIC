@@ -8,11 +8,11 @@
 
 #use delay(internal=4000000)
 
-#define LED1  pin_c5
-#define LED2  pin_a4
-#define AVISO pin_a1
+#define LED1  PIN_C5
+#define LED2  PIN_A4
+#define AVISO PIN_A1
 
-#define BLOQ  pin_a0
+#define BLOQ  PIN_A0
 
 // PORTA
 #define   IRQ         PIN_A2

@@ -28,17 +28,18 @@ void trata_dado()
          output_low(LED2);
          output_high(SAIDA1);
       }
-      piscaLed(1,1,LED1);   
+        
    }
     
 }
 
-//interrupções
+//interrupcoes
 unsigned int8 trata_interr()
 {
    unsigned int8 int_id,i,int_unitario = 0x00; 
    
    int_id = mcp2510_read(CANINTF);
+   //int_unitario retorna o bit mais significativ de i
    if(int_id)
    {
       for (i = 1; i != 0; i<<=1)
@@ -47,6 +48,8 @@ unsigned int8 trata_interr()
       }   
    }
 
+   
+   //int_unitario ee a interrupcao mais importante
    switch (int_unitario)
    {
       case CAN_RX0_INT:
@@ -140,7 +143,7 @@ void main()
    
 //===========REGISTRADORES===================================
    disable_interrupts(GLOBAL);                 // habilitar interr global
-   enable_interrupts(INT_EXT_H2L);             // interrupção CAN
+   enable_interrupts(INT_EXT_H2L);             // interrupï¿½ï¿½o CAN
    setup_timer_1(T1_INTERNAL | T1_DIV_BY_1);   // setar timer1 para interno
    enable_interrupts(INT_TIMER1);              // habilita Timer1 
    set_timer1(0);                              // limpar flag TMR1H & TMR1L 
@@ -165,11 +168,11 @@ void main()
          //piscaLed(1,1,LED2);
       }
          
-//!      if(um_segundo)
-//!      {      
-//!         um_segundo = 0b0;
-//!         
-//!      }
+      if(um_segundo)
+      {      
+         um_segundo = 0b0;
+         piscaLed(1,500,LED1); 
+      }
    }
 }
 

@@ -144,17 +144,17 @@ ROM Allocation:
 000403  @cinit2
 
 Project Directory:
-    C:\Users\fernandoLab\Google Drive\Fernando_Lab\V3\CCS\16f1823\1823 - 17 (Placa TR) -fatoracao interrupção - EM PRODUÇÃO\
+    c:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\
 
 Project Files:
-    teste_can_env.c                                         [08-jun-20 14:41  CRC=6C0AF643]
-    teste_can_env.h                                         [20-mai-20 14:30  CRC=AA9F45A1]
-    ..\..\..\..\..\..\..\..\Program Files (x86)\PICC\Devices\16F1823.h [12-nov-13 14:35  CRC=F3342673]
-    ..\..\headers\can-mcp2515.c                             [12-mai-20 15:36  CRC=922FEDF4]
-    ..\..\headers\can-mcp2515.h                             [19-mai-20 15:49  CRC=13D75633]
-    ..\..\headers\placa_plus.h                              [19-mai-20 16:52  CRC=A932B388]
+    teste_can_env.c                                         [21-jul-20 17:02  CRC=D9A4729E]
+    teste_can_env.h                                         [22-jul-20 16:09  CRC=AA9F45A1]
+    ..\..\..\..\..\Program Files (x86)\PICC\Devices\16F1823.h [12-nov-13 14:35  CRC=F3342673]
+    ..\..\..\Google Drive\Fernando_Lab\V3\CCS\headers\can-mcp2515.c [08-jun-20 15:01  CRC=53A82FF4]
+    ..\..\..\Google Drive\Fernando_Lab\V3\CCS\headers\can-mcp2515.h [19-mai-20 15:49  CRC=13D75633]
+    ..\..\..\Google Drive\Fernando_Lab\V3\CCS\headers\placa_plus.h [19-mai-20 16:52  CRC=A932B388]
 
-Source signature=024B0D8E
+Source signature=315CCBE9
 
 Units:
     teste_can_env (main)
@@ -169,13 +169,9 @@ Compiler Settings:
     Enhanced 16:    Yes
 
 Output Files:
-    XREF file:   teste_can_env.xsym
     Errors:      teste_can_env.err
-    Ext Symbols: teste_can_env.esym
     INHX8:       teste_can_env.hex
     Symbols:     teste_can_env.sym
     List:        teste_can_env.lst
-    Debug/COFF:  teste_can_env.cof
+    Debug/eCOD:  teste_can_env.cod
     Project:     teste_can_env.ccspjt
-    Call Tree:   teste_can_env.tre
-    Statistics:  teste_can_env.STA

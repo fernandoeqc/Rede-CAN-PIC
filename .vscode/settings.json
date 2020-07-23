@@ -1,0 +1,14 @@
+{
+    "files.exclude": {
+        "*.ccspjt": true,
+        "*.cod": true,
+        "*.cof": true,
+        "*.err": true,
+        "*.esym": true,
+        "*.lst": true,
+        "*.STA": true,
+        "*.sym": true,
+        "*.tre": true,
+        "**/__history": true
+    }
+}

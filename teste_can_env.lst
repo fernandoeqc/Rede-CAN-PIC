@@ -1,6 +1,6 @@
-CCS PCM C Compiler, Version 5.015, 5967               08-jun-20 14:41
+CCS PCM C Compiler, Version 5.015, 5967               22-jul-20 16:15
 
-               Filename:   C:\Users\fernandoLab\Google Drive\Fernando_Lab\V3\CCS\16f1823\1823 - 17 (Placa TR) -fatoracao interrupção - EM PRODUÇÃO\teste_can_env.lst
+               Filename:   c:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\teste_can_env.lst
 
                ROM used:   1177 words (57%)
                            Largest free fragment is 870
@@ -135,11 +135,11 @@ CCS PCM C Compiler, Version 5.015, 5967               08-jun-20 14:41
 0054:  GOTO   047
 0055:  RETURN
 ....................  
-.................... #define LED1  pin_c5 
-.................... #define LED2  pin_a4 
-.................... #define AVISO pin_a1 
+.................... #define LED1  PIN_C5 
+.................... #define LED2  PIN_A4 
+.................... #define AVISO PIN_A1 
 ....................  
-.................... #define BLOQ  pin_a0 
+.................... #define BLOQ  PIN_A0 
 ....................  
 .................... // PORTA 
 .................... #define   IRQ         PIN_A2 
@@ -2057,7 +2057,7 @@ CCS PCM C Compiler, Version 5.015, 5967               08-jun-20 14:41
 009C:  RETURN
 .................... } 
 ....................  
-.................... unsigned int8 mcp2510_status(void)  
+.................... unsigned int8 mcp2510_status(void) 
 .................... { 
 ....................    unsigned int8 data; 
 ....................     
@@ -2493,7 +2493,7 @@ CCS PCM C Compiler, Version 5.015, 5967               08-jun-20 14:41
 .................... #define MASTER 200 
 .................... #define RECEPTOR1 303 
 ....................  
-.................... //interrupções 
+.................... //interrupcoes 
 .................... unsigned int8 trata_interr() 
 *
 0261:  CLRF   44
@@ -2748,7 +2748,7 @@ CCS PCM C Compiler, Version 5.015, 5967               08-jun-20 14:41
 0444:  BCF    0B.7
 0445:  BTFSC  0B.7
 0446:  GOTO   444
-....................    enable_interrupts(INT_EXT_H2L);             // interrupção CAN 
+....................    enable_interrupts(INT_EXT_H2L);             // interrupï¿½ï¿½o CAN 
 0447:  BSF    0B.4
 0448:  MOVLB  01
 0449:  BCF    15.6

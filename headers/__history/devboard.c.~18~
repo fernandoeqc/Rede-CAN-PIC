@@ -1,0 +1,41 @@
+#include <devboard.h>
+
+
+
+const char map_key[3][2] = {"<741", "0852", ">963"};
+char key = 0,
+     prev_key = 0;
+    
+
+char teclado(){   
+   int8 i = 0,
+        j = 0,
+        portd = 0;
+   
+   output_low(pin_b0);
+   output_low(pin_b1);
+   output_low(pin_b2);
+   portd = input_d();
+   output_high(pin_b0);
+   output_high(pin_b1);
+   output_high(pin_b2);
+   
+   if(portd == 0x0f){
+      prev_key = 0;
+   }
+   else{     
+      for(i = 0; i < 3; i++){
+         output_low(pin_b0 + i);
+         portd = input_d();
+         for(j = 0; j < 4; j++){
+            if(!bit_test(portd, j)) key = map_key[i][j];
+         }
+         output_high(pin_b0 + i);
+      }
+
+      if(key != prev_key){  
+         prev_key = key;
+         return key; 
+      }
+   }
+}

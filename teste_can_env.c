@@ -6,7 +6,7 @@
 #define MASTER 200
 #define RECEPTOR1 303
 
-//interrupções
+//interrupcoes
 unsigned int8 trata_interr()
 {
    unsigned int8 int_id,i,int_unitario = 0x00; 
@@ -74,7 +74,7 @@ void main()
    
 //===========REGISTRADORES===================================
    disable_interrupts(GLOBAL);                 // habilitar interr global
-   enable_interrupts(INT_EXT_H2L);             // interrupção CAN
+   enable_interrupts(INT_EXT_H2L);             // interrupï¿½ï¿½o CAN
    setup_timer_1(T1_INTERNAL | T1_DIV_BY_1);   // setar timer1 para interno
    enable_interrupts(INT_TIMER1);              // habilita Timer1 
    set_timer1(0);                              // limpar flag TMR1H & TMR1L 

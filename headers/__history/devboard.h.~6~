@@ -1,0 +1,6 @@
+
+
+#IFDEF TECLADO_ON
+   int map_key[3][4] = {"<741", "0852", ">963"};
+   void teclado();
+#ENDIF
