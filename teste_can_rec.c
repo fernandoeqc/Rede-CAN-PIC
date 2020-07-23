@@ -48,7 +48,6 @@ unsigned int8 trata_interr()
       }   
    }
 
-   
    //int_unitario ee a interrupcao mais importante
    switch (int_unitario)
    {
@@ -86,29 +85,6 @@ unsigned int8 trata_interr()
    int_id &= ~int_unitario;
    return int_id;
 }
-
-//!void trata_interr()
-//!{
-//!   int int_id = mcp2510_read(CANINTF);
-//!   mcp2510_bitmodify(CANINTF,int_id,0x00);
-//!   
-//!   flag_interr = 0b0;
-//!   
-//!   if(int_id & CAN_MESERR_INT)
-//!   {
-//!      output_low(PIN_A1);
-//!   }
-//!   
-//!   
-//!   //else if(int_id & CAN_WAKE_INT) {}
-//!   //else if(int_id & CAN_ERROR_INT) {}
-//!   //else if(int_id & CAN_TX2_INT) {}
-//!   //else if(int_id & CAN_TX1_INT) {}
-//!   //else if(int_id & CAN_TX0_INT) {}
-//!   //else if(int_id & CAN_RX1_INT) {}
-//!   //else if(int_id & CAN_RX0_INT) {}
-//!}
-
 
 void main()
 {  
