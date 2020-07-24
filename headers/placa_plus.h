@@ -19,7 +19,7 @@
 #ROM 0xF006 = {0x00}
 #define EP_ID 0x0A,0x01
 
-#define int_per_sec 16
+#define int_per_sec 2
 
 //********************************
 
@@ -50,7 +50,7 @@ unsigned int32 eeprom_le(unsigned int8 address, unsigned int8 tamanho);
 
 #INT_TIMER1
 void timer1_isr(){  // interrupt routine    
-   set_timer1(3000);
+   set_timer1(3036);
    counter--;  // decrements counter which is set to it_per_sec 
    
    //SEGUNDOS

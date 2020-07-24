@@ -733,7 +733,6 @@ void can_abort(void)
 
 void can_set_interr(int8 interr)
 {
-   ///////ADICIONADO: FERNANDO
    mcp2510_write(CANINTE,interr);
 }
 
@@ -745,7 +744,7 @@ void can_set_interr(int8 interr)
 //
 ///
 //////////////////
-//!
+
 
 #ifndef USE_HARDWARE_SPI
    #use spi(MASTER,MODE=0,DI=EXT_CAN_SI,DO=EXT_CAN_SO,CLK=EXT_CAN_SCK,bits=8,stream=MCP2510)

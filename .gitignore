@@ -1,3 +1,6 @@
+#Dir
+__history/
+.vscode/
 
 # Outputs
 *.cof
@@ -9,3 +12,4 @@
 *.sym
 *.tre
 *.xsym
+*.chm

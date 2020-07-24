@@ -6,6 +6,8 @@
 #define MASTER 200
 #define RECEPTOR1 303
 
+unsigned int8 status = 0x00;
+
 void trata_dado()
 {
    struct rx_stat rxstat;
@@ -27,10 +29,10 @@ void trata_dado()
       {
          output_low(LED2);
          output_high(SAIDA1);
-      }
-      piscaLed(1,50,LED1); 
-   }
-    
+
+      }    
+      piscaLed(1,100,LED1);   
+   }   
 }
 
 //interrupcoes
@@ -48,7 +50,6 @@ unsigned int8 trata_interr()
       }   
    }
 
-   
    //int_unitario ee a interrupcao mais importante
    switch (int_unitario)
    {
@@ -87,29 +88,6 @@ unsigned int8 trata_interr()
    return int_id;
 }
 
-//!void trata_interr()
-//!{
-//!   int int_id = mcp2510_read(CANINTF);
-//!   mcp2510_bitmodify(CANINTF,int_id,0x00);
-//!   
-//!   flag_interr = 0b0;
-//!   
-//!   if(int_id & CAN_MESERR_INT)
-//!   {
-//!      output_low(PIN_A1);
-//!   }
-//!   
-//!   
-//!   //else if(int_id & CAN_WAKE_INT) {}
-//!   //else if(int_id & CAN_ERROR_INT) {}
-//!   //else if(int_id & CAN_TX2_INT) {}
-//!   //else if(int_id & CAN_TX1_INT) {}
-//!   //else if(int_id & CAN_TX0_INT) {}
-//!   //else if(int_id & CAN_RX1_INT) {}
-//!   //else if(int_id & CAN_RX0_INT) {}
-//!}
-
-
 void main()
 {  
    //VEJA placa_plus.h
@@ -143,8 +121,8 @@ void main()
    
 //===========REGISTRADORES===================================
    disable_interrupts(GLOBAL);                 // habilitar interr global
-   enable_interrupts(INT_EXT_H2L);             // interrup��o CAN
-   setup_timer_1(T1_INTERNAL | T1_DIV_BY_1);   // setar timer1 para interno
+   enable_interrupts(INT_EXT_H2L);             // interrupcao CAN
+   setup_timer_1(T1_INTERNAL | T1_DIV_BY_8);   // setar timer1 para interno
    enable_interrupts(INT_TIMER1);              // habilita Timer1 
    set_timer1(0);                              // limpar flag TMR1H & TMR1L 
    counter=int_per_sec;
@@ -156,7 +134,7 @@ void main()
 
    while(TRUE)
    {
-      if(flag_interr)
+/*       if(flag_interr)
       {    
          flag_interr = 0b0;
          trata_interr();        
@@ -166,12 +144,14 @@ void main()
       {
          trata_dado();
          //piscaLed(1,1,LED2);
-      }
-         
+      } */
+
+
+
+
       if(um_segundo)
       {      
          um_segundo = 0b0;
-         
       }
    }
 }

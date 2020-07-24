@@ -1,0 +1,21 @@
+LINKS PARA EXPLANAÇÕES:
+   MÁSCARAS E FILTROS mcp2515:
+      https://forum.arduino.cc/index.php?topic=156069.0
+      Uma máscara e um filtro de 0x7E8 seriam inseridos como 0x1FA00000.
+      
+      COD:    111 1110 1000 = 0x7E8
+      MASK:   111 1110 1000 00 0000 0000 0000 0000
+      FILTER: 111 1110 1000 00 0000 0000 0000 0000
+      O cenário acima aceitará qualquer coisa com esses bits específicos definidos (alto).
+
+      COD:    111 1111 1111 = 0x7FF 
+      MASK:   111 1111 1111 00 0000 0000 0000 0000
+      FILTER: 111 1110 1000 00 0000 0000 0000 0000
+      O cenário acima aceitará SOMENTE o identificador 0x7E8.
+      
+      
+      COD:    001 0010 1100 = 0x12C
+      MASK:   111 1111 1111 00 0000 0000 0000 0000 = 7FC 0000
+      FILTER: 001 0010 1100 00 0000 0000 0000 0000 = 4B0 0000
+      
+      
