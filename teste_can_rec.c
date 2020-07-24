@@ -28,7 +28,7 @@ void trata_dado()
          output_low(LED2);
          output_high(SAIDA1);
       }
-        
+      piscaLed(1,50,LED1); 
    }
     
 }
@@ -171,7 +171,7 @@ void main()
       if(um_segundo)
       {      
          um_segundo = 0b0;
-         piscaLed(1,500,LED1); 
+         
       }
    }
 }
