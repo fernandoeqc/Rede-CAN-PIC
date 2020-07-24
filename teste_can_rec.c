@@ -6,6 +6,8 @@
 #define MASTER 200
 #define RECEPTOR1 303
 
+unsigned int8 status = 0x00;
+
 void trata_dado()
 {
    struct rx_stat rxstat;
@@ -27,10 +29,8 @@ void trata_dado()
       {
          output_low(LED2);
          output_high(SAIDA1);
-      }
-        
-   }
-    
+      }       
+   }   
 }
 
 //interrupcoes
@@ -119,8 +119,8 @@ void main()
    
 //===========REGISTRADORES===================================
    disable_interrupts(GLOBAL);                 // habilitar interr global
-   enable_interrupts(INT_EXT_H2L);             // interrup��o CAN
-   setup_timer_1(T1_INTERNAL | T1_DIV_BY_1);   // setar timer1 para interno
+   enable_interrupts(INT_EXT_H2L);             // interrupcao CAN
+   setup_timer_1(T1_INTERNAL | T1_DIV_BY_8);   // setar timer1 para interno
    enable_interrupts(INT_TIMER1);              // habilita Timer1 
    set_timer1(0);                              // limpar flag TMR1H & TMR1L 
    counter=int_per_sec;
@@ -132,7 +132,7 @@ void main()
 
    while(TRUE)
    {
-      if(flag_interr)
+/*       if(flag_interr)
       {    
          flag_interr = 0b0;
          trata_interr();        
@@ -142,12 +142,16 @@ void main()
       {
          trata_dado();
          //piscaLed(1,1,LED2);
-      }
-         
+      } */
+
+
+
+
       if(um_segundo)
       {      
          um_segundo = 0b0;
-         piscaLed(1,500,LED1); 
+         //piscaLed(1,100,LED1);
+         output_toggle(LED1); 
       }
    }
 }
