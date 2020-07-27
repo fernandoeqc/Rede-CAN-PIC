@@ -1,4 +1,3 @@
-
 int8 detecta_freq(void)
 {
    int8 freq, i;
@@ -81,7 +80,7 @@ void setup_io(void)
    output_low(LED2);
 }
 
-#DEFINE TECLADO_ON
+//#DEFINE TECLADO_ON
 #IFDEF TECLADO_ON
 const char map_key[3][5] = {"<741", "0852", ">963"};
 char key = 0,

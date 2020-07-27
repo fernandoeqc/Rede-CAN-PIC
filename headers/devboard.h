@@ -31,5 +31,12 @@ void setup_io(void);
    #ENDIF
 #ENDIF
 
+#IFDEF SPI1_ON
+   #DEFINE CS    PIN_C2
+   #DEFINE SDO   PIN_C5
+   #DEFINE SDI   PIN_C4  
+   #DEFINE SCK   PIN_C3
+#ENDIF
+
 
 

@@ -10,5 +10,8 @@
         "*.sym": true,
         "*.tre": true,
         "**/__history": true
+    },
+    "files.associations": {
+        "devboard.C": "cpp"
     }
 }

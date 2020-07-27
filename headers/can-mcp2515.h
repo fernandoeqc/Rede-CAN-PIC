@@ -29,53 +29,7 @@
 /////////////////////////////////////////////////////////////////////////
 
 
-
 //#define CAN_DO_DEBUG TRUE
-
-
-//defines BAUD RATE
-
-#define MCP_8MHz_500kBPS_CFG1 (0x00)
-#define MCP_8MHz_500kBPS_CFG2 (0x90)
-#define MCP_8MHz_500kBPS_CFG3 (0x02)
-
-#define MCP_8MHz_250kBPS_CFG1 (0x00)
-#define MCP_8MHz_250kBPS_CFG2 (0xb1)
-#define MCP_8MHz_250kBPS_CFG3 (0x05)
-
-#define MCP_8MHz_200kBPS_CFG1 (0x00)
-#define MCP_8MHz_200kBPS_CFG2 (0xb4)
-#define MCP_8MHz_200kBPS_CFG3 (0x06)
-
-#define MCP_8MHz_125kBPS_CFG1 (0x01)
-#define MCP_8MHz_125kBPS_CFG2 (0xb1)
-#define MCP_8MHz_125kBPS_CFG3 (0x05)
-
-#define MCP_8MHz_100kBPS_CFG1 (0x01)
-#define MCP_8MHz_100kBPS_CFG2 (0xb4)
-#define MCP_8MHz_100kBPS_CFG3 (0x06)
-
-#define MCP_8MHz_80kBPS_CFG1 (0x01)
-#define MCP_8MHz_80kBPS_CFG2 (0xbf)
-#define MCP_8MHz_80kBPS_CFG3 (0x07)
-
-#define MCP_8MHz_50kBPS_CFG1 (0x03)
-#define MCP_8MHz_50kBPS_CFG2 (0xb4)
-#define MCP_8MHz_50kBPS_CFG3 (0x06)
-
-#define MCP_8MHz_40kBPS_CFG1 (0x03)
-#define MCP_8MHz_40kBPS_CFG2 (0xbf)
-#define MCP_8MHz_40kBPS_CFG3 (0x07)
-
-#define MCP_8MHz_20kBPS_CFG1 (0x07)
-#define MCP_8MHz_20kBPS_CFG2 (0xbf)
-#define MCP_8MHz_20kBPS_CFG3 (0x07)
-
-#define MCP_8MHz_10kBPS_CFG1 (0x0f)
-#define MCP_8MHz_10kBPS_CFG2 (0xbf)
-#define MCP_8MHz_10kBPS_CFG3 (0x07)
-
-
 
 #ifndef __CCS_CANMCP2510_LIB_DEFINES__
 #define __CCS_CANMCP2510_LIB_DEFINES__
@@ -88,17 +42,14 @@
   #define CAN_USE_EXTENDED_ID         FALSE
 #ENDIF
 
-/////////////// register CNF1 
 #IFNDEF CAN_BRG_SYNCH_JUMP_WIDTH
   #define CAN_BRG_SYNCH_JUMP_WIDTH  0  //synchronized jump width (def: 1 x Tq)
 #ENDIF
 
-////BRP
 #IFNDEF CAN_BRG_PRESCALAR
-  int8 CAN_BRG_PRESCALAR = 0;  //baud rate generator prescalar (def: 4) ( Tq = (2 x (PRE + 1))/Fosc )
+  #define CAN_BRG_PRESCALAR  1  //baud rate generator prescalar (def: 4) ( Tq = (2 x (PRE + 1))/Fosc )
 #ENDIF
 
-/////////////// register CNF2
 #ifndef CAN_BRG_SEG_2_PHASE_TS
  #define CAN_BRG_SEG_2_PHASE_TS   TRUE //phase segment 2 time select bit (def: freely programmable)
 #endif
@@ -107,24 +58,20 @@
  #define CAN_BRG_SAM 0 //sample of the can bus line (def: bus line is sampled 1 times prior to sample point)
 #endif
 
-////PS1
 #ifndef CAN_BRG_PHASE_SEGMENT_1
- int8 CAN_BRG_PHASE_SEGMENT_1 = 1; //phase segment 1 (def: 6 x Tq)
+ #define CAN_BRG_PHASE_SEGMENT_1  5 //phase segment 1 (def: 6 x Tq)
 #endif
 
-////PSG   
 #ifndef CAN_BRG_PROPAGATION_TIME
- int8 CAN_BRG_PROPAGATION_TIME = 1; //propagation time select (def: 3 x Tq)
+ #define CAN_BRG_PROPAGATION_TIME 2 //propagation time select (def: 3 x Tq)
 #endif
 
-/////////////// register CNF3
 #ifndef CAN_BRG_WAKE_FILTER
  #define CAN_BRG_WAKE_FILTER FALSE   //selects can bus line filter for wake up bit
 #endif
 
-////PS2
 #ifndef CAN_BRG_PHASE_SEGMENT_2
- int8 CAN_BRG_PHASE_SEGMENT_2 = 2; //phase segment 2 time select (def: 6 x Tq)
+ #define CAN_BRG_PHASE_SEGMENT_2 5 //phase segment 2 time select (def: 6 x Tq)
 #endif
 
 #ifndef CAN_USE_RX_DOUBLE_BUFFER
@@ -145,7 +92,7 @@ enum CAN_OP_MODE {CAN_OP_CONFIG=4, CAN_OP_LISTEN=3, CAN_OP_LOOPBACK=2, CAN_OP_SL
 struct struct_CANCTRL {
    int  clkpre:2; //0:1 //clkout pin prescalar
    int1 clken; //2   //clkout pin enable
-   int1 osm; //3
+   int1 void3; //3
    int1 abat;  //4   //abort all pending transmissions
    CAN_OP_MODE reqop:3; //5:7 //request operation mode
 };
@@ -200,6 +147,7 @@ struct struct_CANINTF {
    int1 merrf; //7   //message error interrupt flag
 };
 #define CANINTF   0x2C
+
 
 //error counters
 #define TEC    0x1C

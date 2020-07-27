@@ -7,7 +7,7 @@
 #define MASTER 200
 #define RECEPTOR1 303
 
-//interrupções
+//interrupcoes
 //enum {CAN_RX0_INT=1,CAN_RX1_INT=2,CAN_TX0_INT=4,CAN_TX1_INT=8,CAN_TX2_INT=16,CAN_ERROR_INT=32,CAN_WAKE_INT=64,CAN_MESERR_INT=128};
 int1 interr = 0b0;
 
@@ -90,36 +90,36 @@ void main()
    //int1 proximo = 0;
    //char k;
 
-//!   setup_io();
-//!   setup_lcd();
-//!   setup_can();
-//!   setup_interrupt();
+   setup_io();
+   setup_lcd();
+   setup_can();
+   setup_interrupt();
 
    while(TRUE)
    {
       delay_ms(500);
       output_toggle(LED1);
-//!      if(can_kbhit())
-//!      {
-//!         if (can_getd (rx_id, dadosRec, rx_len, rxstat))
-//!         {
-//!            //output_toggle(LED1);
-//!            
-//!            //lcd_putc_hexa(interr);
-//!            
-//!            if(dadosRec[0] == 0xAA) output_high(LED2);
-//!            else if(dadosRec[0] == 0xBB)output_low(LED2);
-//!            
-//!            lcd_gotoxy(0,0);
-//!            lcd_putc_hexa(rx_id);
-//!            
-//!            lcd_gotoxy(0,1);
-//!            for(i = 0; i < rx_len; i++)
-//!            {
-//!               lcd_putc_hexa(dadosRec[i]);
-//!            }
-//!         }   
-//!      }
+      if(can_kbhit())
+      {
+         if (can_getd (rx_id, dadosRec, rx_len, rxstat))
+         {
+            //output_toggle(LED1);
+            
+            //lcd_putc_hexa(interr);
+            
+            if(dadosRec[0] == 0xAA) output_high(LED2);
+            else if(dadosRec[0] == 0xBB)output_low(LED2);
+            
+            lcd_gotoxy(0,0);
+            lcd_putc_hexa(rx_id);
+            
+            lcd_gotoxy(0,1);
+            for(i = 0; i < rx_len; i++)
+            {
+               lcd_putc_hexa(dadosRec[i]);
+            }
+         }   
+      }
    }
 }
 

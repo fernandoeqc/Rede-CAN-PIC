@@ -134,7 +134,7 @@ void main()
 
    while(TRUE)
    {
-/*       if(flag_interr)
+      if(flag_interr)
       {    
          flag_interr = 0b0;
          trata_interr();        
@@ -144,7 +144,7 @@ void main()
       {
          trata_dado();
          //piscaLed(1,1,LED2);
-      } */
+      }
 
 
 

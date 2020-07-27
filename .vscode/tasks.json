@@ -6,7 +6,7 @@
         {
             "label": "CCS_COMPILER",
             "type": "shell",
-            "command": "cd C:\\Program Files (x86)\\PICC & Ccsc.exe +P ${file}",
+            "command": "CCSC +P +FH ${file}",
             "presentation": {
                 "reveal": "silent" 
               }          
