@@ -1,0 +1,174 @@
+000     INTCON
+002     TRISC
+004-005 @MEMSET.P1
+004-005 @WRITE_PACKED_MEMORY.P2
+004-005 @WRITE_PROGRAM_MEMORY8.P3
+004-005 @READ_PACKED_MEMORY.P4
+004-005 @READ_PROGRAM_MEMORY8.P5
+006-007 @READ_PACKED_MEMORY.P1
+006-007 @WRITE_PACKED_MEMORY.P2
+00C     TRISA
+020     @SCRATCH
+020     @MEMSET.P1
+021     @SCRATCH
+021     @MEMSET.P1
+021     _RETURN_
+022     @SCRATCH
+023     @SCRATCH
+024     @INTERRUPT_AREA
+025     @INTERRUPT_AREA
+026     @INTERRUPT_AREA
+027     @INTERRUPT_AREA
+028     CAN_BRG_PRESCALAR
+029     CAN_BRG_PHASE_SEGMENT_1
+02A     CAN_BRG_PROPAGATION_TIME
+02B     CAN_BRG_PHASE_SEGMENT_2
+02C-02F erro_nao_trans
+030-033 erro_mcp
+034-035 horas_ligado
+036     counter
+037     sec
+038     min
+039.0   um_segundo
+039.1   um_minuto
+039.2   uma_hora
+039.3   flag_interr
+039.4   flag_envio
+039.5   flag_receb
+039.6   erro_nao_trans_flag
+039.7   erro_mcp_flag
+03A     piscaLed.nPisca
+03A     trata_interr.int_id
+03A     trata_dado.rxstat
+03A     can_set_interr.interr
+03A     can_init.b_rxb0ctrl
+03B-03C piscaLed.delay
+03B     can_set_mode.mode
+03B     can_set_id.addr
+03B     can_set_baud.new_CNF1
+03B     trata_interr.i
+03B     mcp2510_command.command
+03B-03E trata_dado.tx_id
+03C     can_set_baud.new_CNF2
+03C     trata_interr.int_unitario
+03C-03F can_set_id.id
+03C     can_set_mode.old_CANCTRL
+03D     can_set_baud.new_CNF3
+03D     can_set_mode.new_CANSTAT
+03D     piscaLed.led
+03D     trata_interr.@SCRATCH1
+03E     piscaLed.i
+03E     can_set_mode.@SCRATCH1
+03F     @WRITEBITA.P1
+03F     trata_dado.rx_len
+03F     piscaLed.@SCRATCH1
+040     @WRITEBITA.P1
+040     can_set_id.ext
+040     @delay_ms1.P1
+040-043 trata_dado.rx_id
+041-044 can_set_id.converted_id
+041-042 @WRITEBITA.P1
+044-04B trata_dado.dadosEnv
+045-046 can_set_id.ptr
+047     can_set_id.@SCRATCH1
+048     can_set_id.@SCRATCH2
+049     can_set_id.@SCRATCH3
+04A     can_set_id.@SCRATCH4
+04C-053 trata_dado.dadosRec
+054-055 can_getd.data
+056     can_getd.i
+057     can_getd.b_rxb0ctrl
+058     can_getd.b_RXB1CTRL
+059     can_getd.b_EFLG
+05A     can_getd.RXBaDLC
+05B     can_getd.b_RXBaDLC
+05C     can_getd.TXRXBaSIDL
+05D     can_getd.b_TXRXBaSIDL
+05E     can_getd.RXBaD0
+05F     can_getd.b_CANINTF
+060     can_getd.@SCRATCH1
+061     can_getd.@SCRATCH2
+066     mcp2510_write.address
+067     mcp2510_write.data
+068     can_get_id.addr
+069     can_get_id.ext
+06A-06D can_get_id.ret
+06E-06F,0A0-09F can_get_id.ptr
+0A0-0A3 can_get_id.converted_id
+0A4     can_get_id.@SCRATCH1
+0A5     mcp2510_read.address
+0A5     can_get_id.@SCRATCH2
+0A6     mcp2510_read.data
+0A6     can_get_id.@SCRATCH3
+0A7     @SPI_XFER_1.P1
+0A7     can_get_id.@SCRATCH4
+0A8     @SPI_XFER_1.P1
+0A8     can_get_id.@SCRATCH5
+0A9     @SPI_XFER_1.@SCRATCH1
+0AA     @SPI_XFER_1.@SCRATCH2
+111.6   C1OUT
+113.6   C2OUT
+191-192 @READ_PROGRAM_MEMORY8.P1
+191-192 @WRITE_PROGRAM_MEMORY8.P2
+291     CCP_1_LOW
+291     CCP_1
+292     CCP_1_HIGH
+F76     TXERRCNT
+
+ROM Allocation:
+000023  timer1_isr
+00003C  external_can_interrupt
+000040  @delay_ms1
+000055  @SPI_XFER_1
+000080  mcp2510_read
+0000A3  @MEMSET
+0000AB  mcp2510_write
+0000CA  can_set_mode
+000101  can_set_id
+0001B4  mcp2510_init
+0001B4  can_init
+0001C5  mcp2510_command
+0001DC  can_set_baud
+00026B  can_set_interr
+000272  trata_interr
+0002B6  trata_dado
+0002CF  can_getd
+000381  can_get_id
+000525  @WRITEBITA
+000545  piscaLed
+00057B  @cinit1
+00057B  MAIN
+0005AB  @cinit2
+
+Project Directory:
+    c:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\
+
+Project Files:
+    teste_can_rec.c                                         [22-jul-20 16:17  CRC=B1E5146F]
+    teste_can_rec.h                                         [22-jul-20 15:41  CRC=6C7D6686]
+    ..\..\..\..\..\Program Files (x86)\PICC\Devices\16F1823.h [12-nov-13 14:35  CRC=F3342673]
+    ..\..\..\Google Drive\Fernando_Lab\V3\CCS\headers\can-mcp2515.c [08-jun-20 15:01  CRC=53A82FF4]
+    ..\..\..\Google Drive\Fernando_Lab\V3\CCS\headers\can-mcp2515.h [19-mai-20 15:49  CRC=13D75633]
+    ..\..\..\Google Drive\Fernando_Lab\V3\CCS\headers\placa_plus.h [19-mai-20 16:52  CRC=A932B388]
+
+Source signature=CB7B8E9F
+
+Units:
+    teste_can_rec (main)
+
+Compiler Settings:
+    Processor:      PIC16F1823
+    Pointer Size:   16
+    ADC Range:      0-65535
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+    Enhanced 16:    Yes
+
+Output Files:
+    Errors:      teste_can_rec.err
+    INHX8:       teste_can_rec.hex
+    Symbols:     teste_can_rec.sym
+    List:        teste_can_rec.lst
+    Debug/eCOD:  teste_can_rec.cod
+    Project:     teste_can_rec.ccspjt

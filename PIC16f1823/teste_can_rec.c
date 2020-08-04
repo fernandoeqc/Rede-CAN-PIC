@@ -29,10 +29,17 @@ void trata_dado()
       {
          output_low(LED2);
          output_high(SAIDA1);
+<<<<<<< HEAD:PIC16f1823/teste_can_rec.c
 
       }    
       piscaLed(1,100,LED1);   
    }   
+=======
+      }
+        
+   }
+    
+>>>>>>> parent of 8276a9d... led1:teste_can_rec.c
 }
 
 //interrupcoes
@@ -152,6 +159,10 @@ void main()
       if(um_segundo)
       {      
          um_segundo = 0b0;
+<<<<<<< HEAD:PIC16f1823/teste_can_rec.c
+=======
+         piscaLed(1,500,LED1); 
+>>>>>>> parent of 8276a9d... led1:teste_can_rec.c
       }
    }
 }
