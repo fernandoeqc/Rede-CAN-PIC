@@ -6,7 +6,7 @@
         {
             "label": "CCS_COMPILER",
             "type": "shell",
-            "command": "CCSC +P +FH ${file}",
+            "command": "CCSC +P ${file}",
             "presentation": {
                 "reveal": "silent" 
               }          

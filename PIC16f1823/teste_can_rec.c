@@ -6,7 +6,7 @@
 #define MASTER 200
 #define RECEPTOR1 303
 
-unsigned int8 status = 0x00;
+unsigned int8 status = 0x08;
 
 void trata_dado()
 {
@@ -31,7 +31,7 @@ void trata_dado()
          output_high(SAIDA1);
 
       }    
-      piscaLed(1,100,LED1);   
+      //piscaLed(status,100,LED1);   
    }   
 }
 
@@ -42,54 +42,58 @@ unsigned int8 trata_interr()
    
    int_id = mcp2510_read(CANINTF);
    //int_unitario retorna o bit mais significativ de i
-   if(int_id)
-   {
-      for (i = 1; i != 0; i<<=1)
-      {
-         if ((int_id & i) != 0) {int_unitario = i;}
-      }   
-   }
 
    //int_unitario ee a interrupcao mais importante
-   switch (int_unitario)
-   {
-      case CAN_RX0_INT:
-         flag_receb = 0b1;
-         break;
-      
-      case CAN_RX1_INT:
-         flag_receb = 0b1;
-         break;
-      
-      case CAN_TX0_INT:
-         break;
-      
-      case CAN_TX1_INT:
-         break;
-  
-      case CAN_TX2_INT:
-         break;
-      
-      case CAN_ERROR_INT:
-         break;
-      
-      case CAN_WAKE_INT:
-         break;
-      
-      case CAN_MESERR_INT:
-         break;
-      
-      default: 
-         break; //erro!
+
+   if (int_id & CAN_RX0_INT) {
+      flag_receb = 0b1;
+      status = 1;
    }
    
-   //mcp2510_bitmodify(CANINTF,int_unitario,0x00);
+   if (int_id & CAN_RX1_INT) {
+      flag_receb = 0b1;
+      status = 1;
+   }
+   
+   if (int_id & CAN_TX0_INT) {
+      //flag_receb = 0b1;
+      status = 2;
+   }
+
+   if (int_id & CAN_TX1_INT) {
+      //flag_receb = 0b1;
+      status = 4;
+   }
+
+   if (int_id & CAN_TX2_INT) {
+      //flag_receb = 0b1;
+      status = 5;
+   }
+
+   if (int_id & CAN_ERROR_INT) {
+      //flag_receb = 0b1;
+      status = 6;
+   }
+
+   if (int_id & CAN_WAKE_INT) {
+      //flag_receb = 0b1;
+      status = 7;
+   }
+
+   if (int_id & CAN_MESERR_INT) {
+      //flag_receb = 0b1;
+      status = 8;
+   }
+   
+   mcp2510_bitmodify(CANINTF,int_unitario,0x00);
    int_id &= ~int_unitario;
    return int_id;
 }
 
 void main()
 {  
+   unsigned int8 conta_seg = 0;
+
    //VEJA placa_plus.h
    set_tris_a(0b00001100);
    set_tris_c(0b00000010);
@@ -143,15 +147,17 @@ void main()
       if(flag_receb)
       {
          trata_dado();
-         //piscaLed(1,1,LED2);
+         piscaLed(status,100,LED2);
+         conta_seg = 0;
       }
-
-
-
-
+      
       if(um_segundo)
       {      
-         um_segundo = 0b0;
+         conta_seg++;
+         if(conta_seg == 6) {
+            conta_seg = 0;
+            piscaLed(status,100,LED1);
+         }
       }
    }
 }

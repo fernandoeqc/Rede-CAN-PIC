@@ -1,0 +1,23 @@
+[PROJECT]
+Target=teste1823.hex
+Processor_Text=PIC16F1823
+CCSVerions=5.015
+Compiler=PCM
+CCSVersion=5.015
+[Target Data]
+FileList=teste1823.c
+[Directories]
+Include=C:\Program Files (x86)\PICC\Devices\;C:\Program Files (x86)\PICC\Drivers\;C:\Program Files (x86)\PICC\Drivers\?:\Users\fernandoLab\Google Drive\Fernando_Lab\V3\CCS\headers\
+[C:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\teste\teste1823]
+Type=4
+[mru-list]
+1=teste1823.c
+[Opened Files]
+1=teste1823.c
+2=teste1823.h
+3=
+[teste1823.c]
+Type=4
+[Units]
+Count=1
+1=teste1823 (main)

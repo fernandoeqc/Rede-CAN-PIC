@@ -19,7 +19,7 @@
 #ROM 0xF006 = {0x00}
 #define EP_ID 0x0A,0x01
 
-#define int_per_sec 2
+#define int_per_sec 10
 
 //********************************
 
@@ -48,9 +48,14 @@ void piscaLed(char nPisca, int16 delay, int8 led);
 void eeprom_grava(unsigned int8 address, unsigned int8 tamanho, unsigned int32 hexa);
 unsigned int32 eeprom_le(unsigned int8 address, unsigned int8 tamanho);
 
-#INT_TIMER1
+/* 
+tempo(ms) = prescaler/1000 * 4/fclock * (65536-contagem inicial)
+100mS = 8/1000 * 4/4 * (53036)
+*/
+
+#INT_TIMER1 // 100mS
 void timer1_isr(){  // interrupt routine    
-   set_timer1(3036);
+   set_timer1(53036);
    counter--;  // decrements counter which is set to it_per_sec 
    
    //SEGUNDOS

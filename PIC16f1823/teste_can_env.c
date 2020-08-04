@@ -50,7 +50,8 @@ unsigned int8 trata_interr()
 
 void main()
 {             
-   int8 dadosEnv[8] = {0xCC,0xDD};
+   int8 dadosEnv[8] = {0xCC,0xDD},
+      conta_seg = 0;
 
    //VEJA placa_plus.h
    set_tris_a(0b00001100);
@@ -74,7 +75,7 @@ void main()
    
 //===========REGISTRADORES===================================
    disable_interrupts(GLOBAL);                 // habilitar interr global
-   enable_interrupts(INT_EXT_H2L);             // interrup��o CAN
+   enable_interrupts(INT_EXT_H2L);             // interrupcao CAN
    setup_timer_1(T1_INTERNAL | T1_DIV_BY_1);   // setar timer1 para interno
    enable_interrupts(INT_TIMER1);              // habilita Timer1 
    set_timer1(0);                              // limpar flag TMR1H & TMR1L 
@@ -100,13 +101,17 @@ void main()
       if(!input(BLOQ)) {dadosEnv[0] = 0xBB;}    
       else {dadosEnv[0] = 0xAA;}
    
-   
       if(um_segundo)
       {
          um_segundo = 0b0;
-         can_putd(0x71F,dadosEnv,2,0,0,0);
-         delay_ms(10);
-         piscaLed(1,1,LED1);
+         
+         conta_seg++;
+         if(conta_seg == 3) {
+            conta_seg = 0;
+            can_putd(0x71F,dadosEnv,2,0,0,0);
+            delay_ms(10);
+            piscaLed(1,1,LED1);
+         }
       }
    }
 }
