@@ -19,7 +19,7 @@
 #ROM 0xF006 = {0x00}
 #define EP_ID 0x0A,0x01
 
-#define int_per_sec 2
+#define int_per_sec 10
 
 //********************************
 
@@ -48,18 +48,19 @@ void piscaLed(char nPisca, int16 delay, int8 led);
 void eeprom_grava(unsigned int8 address, unsigned int8 tamanho, unsigned int32 hexa);
 unsigned int32 eeprom_le(unsigned int8 address, unsigned int8 tamanho);
 
+
 #INT_TIMER1
 void timer1_isr(){  // interrupt routine    
-   set_timer1(3036);
+   set_timer1(53036);
    counter--;  // decrements counter which is set to it_per_sec 
-   
+
    //SEGUNDOS
    if(counter==0){         
       sec++;                
       counter=int_per_sec; //resets counter
       //contador_seg++;
       um_segundo = 0b01;
-   } 
+   }
 
    //MINUTOS
    if(sec==60){ 
@@ -67,7 +68,7 @@ void timer1_isr(){  // interrupt routine
       min++;
       um_minuto = 0b1;
    }
-    
+
    //HORAS
    if(min==60) { 
       min=0;
