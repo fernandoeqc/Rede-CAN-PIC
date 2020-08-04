@@ -30,8 +30,7 @@ void trata_dado()
          output_low(LED2);
          output_high(SAIDA1);
 
-      }    
-      //piscaLed(status,100,LED1);   
+      }      
    }   
 }
 
