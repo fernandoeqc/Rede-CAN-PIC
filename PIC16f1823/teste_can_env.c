@@ -17,7 +17,7 @@ unsigned int8 trata_interr()
       for (i = 1; i != 0; i<<=1)
       {
          if ((int_id & i) != 0) {int_unitario = i;}
-      }   
+      }
    }
 
    switch (int_unitario)

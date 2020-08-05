@@ -46,40 +46,21 @@ unsigned int8 trata_interr()
    }
 
    //int_unitario ee a interrupcao mais importante
-   switch (int_unitario)
+   enum {CAN_RX0_INT=1,CAN_RX1_INT=2,CAN_TX0_INT=4,CAN_TX1_INT=8,CAN_TX2_INT=16,CAN_ERROR_INT=32,CAN_WAKE_INT=64,CAN_MESERR_INT=128};
+
+   if(CAN_RX0_INT & int_id)
    {
-      case CAN_RX0_INT:
-         flag_receb = 0b1;
-         break;
-      
-      case CAN_RX1_INT:
-         flag_receb = 0b1;
-         break;
-      
-      case CAN_TX0_INT:
-         break;
-      
-      case CAN_TX1_INT:
-         break;
-  
-      case CAN_TX2_INT:
-         break;
-      
-      case CAN_ERROR_INT:
-         break;
-      
-      case CAN_WAKE_INT:
-         break;
-      
-      case CAN_MESERR_INT:
-         break;
-      
-      default: 
-         break; //erro!
+      flag_receb = 0b1;
    }
    
-   //mcp2510_bitmodify(CANINTF,int_unitario,0x00);
-   int_id &= ~int_unitario;
+   if(CAN_RX1_INT & int_id)
+   {
+      flag_receb = 0b1;
+   }
+   
+   //REFATOR: Verificar individualmente cada interrupcao, ao inves de limpar todas de uma vez
+   mcp2510_bitmodify(CANINTF,int_id,0x00);
+   int_id = 0;
    return int_id;
 }
 
