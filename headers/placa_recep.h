@@ -88,7 +88,7 @@ int8 detecta_freq(void)
    for(freq = 0; freq < 6; freq++)
    {
       can_set_mode(CAN_OP_CONFIG);
-      set_freq_var(freq);
+      //set_freq_var(freq);
       can_set_baud();
       can_set_mode(CAN_OP_LISTEN);
       
@@ -119,7 +119,7 @@ void setup_can(int1 frequencia_eeprom, unsigned int8 interr, unsigned int8 can_m
 
    frequencia_eeprom ? (freq = eeprom_le(EP_ID)) : (freq = detecta_freq());
   
-   set_freq_var(freq);
+   //set_freq_var(freq);
    can_set_interr(interr);
    can_set_mode(can_mode); 
 }

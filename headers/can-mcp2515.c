@@ -63,14 +63,14 @@
 //// in object code form are not restricted in any way.              ////
 /////////////////////////////////////////////////////////////////////////
 
-#define CAN_RX0_INT    1
-#define CAN_RX1_INT    2
-#define CAN_TX0_INT    4
-#define CAN_TX1_INT    8 
-#define CAN_TX2_INT    16
-#define CAN_ERROR_INT  32
-#define CAN_WAKE_INT   64
-#define CAN_MESERR_INT 128
+						
+						
+						
+						 
+						 
+						 
+						 
+						  
 
 #include <can-mcp2515.h>
 
@@ -145,7 +145,7 @@ void can_init(void)
    can_set_mode(CAN_OP_NORMAL);
 }
 
-//caso vazio(0xFF), por padr�o a velocidade � 500kbps
+//caso vazio(0xFF), por padrão a velocidade é 500kbps
 //// CAN Rate     #######################################
 //// 500Kbps ---- BRP = 0 / PS1  = 1 /  PSG = 1 / PS2 = 2
 //// 250Kbps ---- BRP = 1 / PS1  = 1 /  PSG = 2 / PS2 = 1
@@ -154,59 +154,61 @@ void can_init(void)
 //// 80Kbps ----- BRP = 4 / PS1  = 2 /  PSG = 2 / PS2 = 2
 //// 50Kbps ----- BRP = 4 / PS1  = 5 /  PSG = 2 / PS2 = 5
 ////              #######################################
+  
 void set_freq_var(int8 freq)
 {
    switch(freq)
    {
-      case 0x00: //500kbps (PADR�O)
-         #define CAN_BRG_PRESCALAR 0;
-         #define CAN_BRG_PHASE_SEGMENT_1 1;
-         #define CAN_BRG_PROPAGATION_TIME 1;
-         #define CAN_BRG_PHASE_SEGMENT_2 2;
+      case 0x00: //500kbps (PADRÃO)
+         CAN_BRG_PRESCALAR = 0;
+         CAN_BRG_PHASE_SEGMENT_1 = 1;
+         CAN_BRG_PROPAGATION_TIME = 1;
+         CAN_BRG_PHASE_SEGMENT_2 = 2;
          break;
          
       case 0x01: //250kbps
-         #define CAN_BRG_PRESCALAR 0;
-         #define CAN_BRG_PHASE_SEGMENT_1 4;
-         #define CAN_BRG_PROPAGATION_TIME 3;
-         #define CAN_BRG_PHASE_SEGMENT_2 5;
+         CAN_BRG_PRESCALAR = 0;
+         CAN_BRG_PHASE_SEGMENT_1 = 4;
+         CAN_BRG_PROPAGATION_TIME = 3;
+         CAN_BRG_PHASE_SEGMENT_2 = 5;
          break;
          
       case 0x02: //200kbps
-         #define CAN_BRG_PRESCALAR 1;
-         #define CAN_BRG_PHASE_SEGMENT_1 2;
-         #define CAN_BRG_PROPAGATION_TIME 2;
-         #define CAN_BRG_PHASE_SEGMENT_2 2;
+         CAN_BRG_PRESCALAR = 1;
+         CAN_BRG_PHASE_SEGMENT_1 = 2;
+         CAN_BRG_PROPAGATION_TIME = 2;
+         CAN_BRG_PHASE_SEGMENT_2 = 2;
          break;
          
       case 0x03: //125kbps
-         #define CAN_BRG_PRESCALAR 1;
-         #define CAN_BRG_PHASE_SEGMENT_1 5;
-         #define CAN_BRG_PROPAGATION_TIME 5;
-         #define CAN_BRG_PHASE_SEGMENT_2 2;
+         CAN_BRG_PRESCALAR = 1;
+         CAN_BRG_PHASE_SEGMENT_1 = 5;
+         CAN_BRG_PROPAGATION_TIME = 5;
+         CAN_BRG_PHASE_SEGMENT_2 = 2;
          break;
          
       case 0x04: //80kbps
-         #define CAN_BRG_PRESCALAR 4;
-         #define CAN_BRG_PHASE_SEGMENT_1 2;
-         #define CAN_BRG_PROPAGATION_TIME 2;
-         #define CAN_BRG_PHASE_SEGMENT_2 2;
+         CAN_BRG_PRESCALAR = 4;
+         CAN_BRG_PHASE_SEGMENT_1 = 2;
+         CAN_BRG_PROPAGATION_TIME = 2;
+         CAN_BRG_PHASE_SEGMENT_2 = 2;
          break;
          
       case 0x5: //50kbps
-         #define CAN_BRG_PRESCALAR 4;
-         #define CAN_BRG_PHASE_SEGMENT_1 5;
-         #define CAN_BRG_PROPAGATION_TIME 2;
-         #define CAN_BRG_PHASE_SEGMENT_2 5;
+         CAN_BRG_PRESCALAR = 4;
+         CAN_BRG_PHASE_SEGMENT_1 = 5;
+         CAN_BRG_PROPAGATION_TIME = 2;
+         CAN_BRG_PHASE_SEGMENT_2 = 5;
          break;
          
       default: //500kbps
-         #define CAN_BRG_PRESCALAR 0;
-         #define CAN_BRG_PHASE_SEGMENT_1 1;
-         #define CAN_BRG_PROPAGATION_TIME 1;
-         #define CAN_BRG_PHASE_SEGMENT_2 2; 
+         CAN_BRG_PRESCALAR = 0;
+         CAN_BRG_PHASE_SEGMENT_1 = 1;
+         CAN_BRG_PROPAGATION_TIME = 1;
+         CAN_BRG_PHASE_SEGMENT_2 = 2; 
    }
 }
+  
 
 ////////////////////////////////////////////////////////////////////////
 //
@@ -219,7 +221,7 @@ void set_freq_var(int8 freq)
 // Current defaults are set to work with CCS's CAN Prototype board and
 // Microchip's MCP250xxx CAN Developers Kit if this PIC is running at 8Mhz.
 //   Paramaters:
-//     freq - caso seja 0, seta baud padr�o de 500kbps.
+//     freq - caso seja 0, seta baud padrão de 500kbps.
 //
 ////////////////////////////////////////////////////////////////////////
 void can_set_baud() 
@@ -733,6 +735,7 @@ void can_abort(void)
 
 void can_set_interr(int8 interr)
 {
+   ///////ADICIONADO: FERNANDO
    mcp2510_write(CANINTE,interr);
 }
 
@@ -744,7 +747,7 @@ void can_set_interr(int8 interr)
 //
 ///
 //////////////////
-
+//!
 
 #ifndef USE_HARDWARE_SPI
    #use spi(MASTER,MODE=0,DI=EXT_CAN_SI,DO=EXT_CAN_SO,CLK=EXT_CAN_SCK,bits=8,stream=MCP2510)
@@ -771,7 +774,7 @@ unsigned int8 mcp2510_read(unsigned int8 address)
    return(data);
 }
 
-unsigned int8 mcp2510_status(void)
+unsigned int8 mcp2510_status(void) 
 {
    unsigned int8 data;
    

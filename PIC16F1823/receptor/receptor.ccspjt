@@ -1,0 +1,60 @@
+[PROJECT]
+Target=receptor.hex
+Processor_Text=PIC16F1823
+CCSVerions=5.015
+Compiler=PCM
+CCSVersion=5.015
+Development_Mode=
+ToolSuite=CCS
+[Target Data]
+FileList=receptor.c
+BuildTool=C-COMPILER
+OptionString=+FM
+AdditionalOptionString=
+BuildRequired=1
+[Directories]
+Include=C:\Program Files (x86)\PICC\Devices\;C:\Program Files (x86)\PICC\Drivers\;C:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\PIC16F1823\;C:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\headers\
+Library=
+LinkerScript=
+[C:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\PIC16F1823\receptor]
+Type=4
+[mru-list]
+1=receptor.c
+[Opened Files]
+1=receptor.c
+2=
+3=..\headers\placa_plus.h
+4=..\headers\can-mcp2515.h
+5=
+[receptor.c]
+Type=4
+Path=
+FileList=
+BuildTool=
+OptionString=
+AdditionalOptionString=
+[defines]
+enabled=0
+chip=1
+D1=
+V1=
+[fileformats]
+forcecoff=1
+debug=4
+error=2
+object=0
+list=0
+scratch=0
+sta=1
+tre=1
+allerrors=1
+allwarnings=1
+stayupne=3
+stayupoe=0
+[Windows]
+0=0000 %S 0 0 796 451 3 0
+[CompilerVersion]
+Fixed=
+[Units]
+Count=1
+1=receptor (main)

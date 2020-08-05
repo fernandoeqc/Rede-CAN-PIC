@@ -1,6 +1,6 @@
-#include <teste_can_env.h>
+#include <transmissor.h>
 #include <can-mcp2515.c>
-#include <placa_plus.h>
+#include <placa_recep.h>
 
 
 #define MASTER 200
@@ -74,8 +74,8 @@ void main()
    
 //===========REGISTRADORES===================================
    disable_interrupts(GLOBAL);                 // habilitar interr global
-   enable_interrupts(INT_EXT_H2L);             // interrup��o CAN
-   setup_timer_1(T1_INTERNAL | T1_DIV_BY_1);   // setar timer1 para interno
+   enable_interrupts(INT_EXT_H2L);             // interrupcao CAN
+   setup_timer_1(T1_INTERNAL | T1_DIV_BY_8);   // setar timer1 para interno
    enable_interrupts(INT_TIMER1);              // habilita Timer1 
    set_timer1(0);                              // limpar flag TMR1H & TMR1L 
    counter=int_per_sec;
@@ -110,5 +110,6 @@ void main()
       }
    }
 }
+
 
 
