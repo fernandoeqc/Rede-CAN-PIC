@@ -35,29 +35,26 @@ unsigned int8 trata_interr()
 {
    unsigned int8 int_id,i,int_unitario = 0x00; 
    piscaLed(1,100,LED1); 
+   
    int_id = mcp2510_read(CANINTF);
-   //int_unitario retorna o bit mais significativ de i
-   if(int_id)
-   {
-      for (i = 1; i != 0; i<<=1)
-      {
-         if ((int_id & i) != 0) {int_unitario = i;}
-      }
-   }
 
    //int_unitario ee a interrupcao mais importante
    enum {CAN_RX0_INT=1,CAN_RX1_INT=2,CAN_TX0_INT=4,CAN_TX1_INT=8,CAN_TX2_INT=16,CAN_ERROR_INT=32,CAN_WAKE_INT=64,CAN_MESERR_INT=128};
 
-   if(CAN_RX0_INT & int_id)
+   if((CAN_RX0_INT & int_id) || (CAN_RX1_INT & int_id))
    {
       flag_receb = 0b1;
    }
    
-   if(CAN_RX1_INT & int_id)
+   //ex.     int_id = 1000 0001
+   //CAN_MESERR_INT = 1000 0000
+   //          TRUE = 1000 0000
+           
+   if(CAN_MESERR_INT & int_id)
    {
-      flag_receb = 0b1;
+      //flag_receb = 0b1;
+      //SETAR VAR DO LED
    }
-   
    //REFATOR: Verificar individualmente cada interrupcao, ao inves de limpar todas de uma vez
    mcp2510_bitmodify(CANINTF,int_id,0x00);
    int_id = 0;
@@ -113,8 +110,8 @@ void main()
    {
       if(flag_interr)
       {    
-         flag_interr = 0b0;
          trata_interr();        
+         flag_interr = 0b0;
       }
       
       if(flag_receb)

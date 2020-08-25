@@ -1,5 +1,5 @@
 [PROJECT]
-Target=teste_can_env.hex
+Target=teste.hex
 Processor_Text=PIC16F1823
 CCSVerions=5.015
 Compiler=PCM
@@ -7,29 +7,24 @@ CCSVersion=5.015
 Development_Mode=
 ToolSuite=CCS
 [Target Data]
-FileList=teste_can_env.c
+FileList=teste.c
 BuildTool=C-COMPILER
 OptionString=+FM
 AdditionalOptionString=
 BuildRequired=1
 [Directories]
-Include=<default>\;C:\Users\fernandoLab\Google Drive\Fernando_Lab\V3\CCS\headers\;C:\Program Files (x86)\PICC\Devices\;C:\Program Files (x86)\PICC\Drivers\;C:\Program Files (x86)\PICC\Drivers\C:\Program Files (x86)\PICC\Devices\
+Include=<default>\;C:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\headers\;C:\Program Files (x86)\PICC\Devices\;C:\Program Files (x86)\PICC\Drivers\
 Library=
 LinkerScript=
-[C:\Users\fernandoLab\Google Drive\Fernando_Lab\V3\CCS\1823teste4\teste_can_env]
+[C:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\PIC16F1823\teste\teste]
 Type=4
 [mru-list]
-1=teste_can_env.c
+1=teste.c
 [Opened Files]
-1=teste_can_env.c
-2=
-3=..\..\headers\placa_plus.h
-4=
-5=..\headers\can-mcp2515.c
-6=..\headers\can-mcp2515.h
-7=
-8=
-[teste_can_env.c]
+1=teste.c
+2=..\..\headers\placa_recep.h
+3=
+[teste.c]
 Type=4
 Path=
 FileList=
@@ -60,4 +55,4 @@ stayupoe=0
 Fixed=
 [Units]
 Count=1
-1=teste_can_env (main)
+1=teste (main)

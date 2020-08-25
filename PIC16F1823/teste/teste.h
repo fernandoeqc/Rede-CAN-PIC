@@ -10,8 +10,8 @@
 #use rs232(baud=9600,parity=N,xmit=0,rcv=1,bits=8,stream=PORT1)
 
 #define LED1 PIN_A5
-#define LED2 PIN_A4
-#define SAIDA1 PIN_C5
+#define LED2 PIN_A4S
+#define SAIDA1 PIN_C5 //RL rele
 
 // PORTA
 #define   IRQ         PIN_A2
@@ -19,8 +19,8 @@
 #define   MCLR        PIN_A3
 // PORTC
 #define   SCK         PIN_C0
-#define   SDI         PIN_C1
-#define   SDO         PIN_C2
+#define   SDI         PIN_C1 //SI
+#define   SDO         PIN_C2 //SO
 #define   CS          PIN_C3
                       
 //TRISA

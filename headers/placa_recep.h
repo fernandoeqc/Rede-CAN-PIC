@@ -3,7 +3,7 @@
 //********************************
 //DEFINE EEPROM_NOME PRIMEIRO ENDERECO,TAMANHO BYTES
 
-//conta transmiss�es perdidas na CAN - bytes 0 a 3
+//conta transmissoes perdidas na CAN - bytes 0 a 3
 #ROM 0xF000 = {0x00,0x00,0x00,0x00}
 #define EP_NAO_TRANS 0x00,0x04
 
@@ -11,7 +11,7 @@
 #ROM 0xF004 = {0x00,0x00}
 #define EP_HORA_LIGADO 0x04,0x02
 
-//conta erros de comunica��o com MCP - bytes 6 a 9
+//conta erros de comunicacao com MCP - bytes 6 a 9
 #ROM 0xF006 = {0x00,0x00,0x00,0x00}
 #define EP_MCP 0x06,0x04
 
@@ -19,7 +19,7 @@
 #ROM 0xF006 = {0x00}
 #define EP_ID 0x0A,0x01
 
-#define int_per_sec 10
+#define int_per_sec 2
 
 //********************************
 
@@ -54,6 +54,8 @@ void timer1_isr(){  // interrupt routine
    set_timer1(53036);
    counter--;  // decrements counter which is set to it_per_sec 
 
+   //MEIO SEGUNDO
+   
    //SEGUNDOS
    if(counter==0){         
       sec++;                
@@ -82,47 +84,6 @@ void external_can_interrupt ()
    flag_interr = 0b1;
 }
 
-int8 detecta_freq(void)
-{
-   int8 freq, i;
-   for(freq = 0; freq < 6; freq++)
-   {
-      can_set_mode(CAN_OP_CONFIG);
-      //set_freq_var(freq);
-      can_set_baud();
-      can_set_mode(CAN_OP_LISTEN);
-      
-      for(i = 0; i < 8; i++)
-      {
-         delay_ms(500);
-         if(can_kbhit()) return freq;
-      }   
-      piscaLed(1,1,LED2);
-   }
-   return 0xff;
-}
-
-void setup_can(int1 frequencia_eeprom, unsigned int8 interr, unsigned int8 can_mode)
-{
-   int8 freq = 0;
-   can_init();
-   
-//!   can_set_mode(CAN_OP_CONFIG);
-//!   can_set_id(RX0MASK,0x7E0,CAN_USE_EXTENDED_ID);
-//!   can_set_id(RX0FILTER0,0x7E0,CAN_USE_EXTENDED_ID);
-//!   can_set_id(RX0FILTER1,0x7E0,CAN_USE_EXTENDED_ID);
-//!   can_set_id(RX1MASK,0x223,CAN_USE_EXTENDED_ID);
-//!   can_set_id(RX1FILTER2,0x223,CAN_USE_EXTENDED_ID);
-//!   can_set_id(RX1FILTER3,0x223,CAN_USE_EXTENDED_ID);
-//!   can_set_id(RX1FILTER4,0x223,CAN_USE_EXTENDED_ID);
-//!   can_set_id(RX1FILTER5,0x223,CAN_USE_EXTENDED_ID);
-
-   frequencia_eeprom ? (freq = eeprom_le(EP_ID)) : (freq = detecta_freq());
-  
-   //set_freq_var(freq);
-   can_set_interr(interr);
-   can_set_mode(can_mode); 
-}
 
 void piscaLed(char nPisca, unsigned int16 delay, unsigned int8 led)
 {

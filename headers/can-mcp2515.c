@@ -733,11 +733,62 @@ void can_abort(void)
    mcp2510_write(CANCTRL, (unsigned int8)b_CANCTRL);
 }
 
+
+
+
+
 void can_set_interr(int8 interr)
 {
    ///////ADICIONADO: FERNANDO
    mcp2510_write(CANINTE,interr);
 }
+
+//CORRIGIR
+int8 detecta_freq(void)
+{
+   int8 freq, i;
+   for(freq = 0; freq < 6; freq++)
+   {
+      can_set_mode(CAN_OP_CONFIG);
+      //set_freq_var(freq);
+      can_set_baud();
+      can_set_mode(CAN_OP_LISTEN);
+      
+      for(i = 0; i < 8; i++)
+      {
+         delay_ms(500);
+         if(can_kbhit()) return freq;
+      }   
+      //piscaLed(1,1,LED2);
+   }
+   return 0xff;
+}
+
+//CORRIGIR
+void setup_can(int1 frequencia_eeprom, unsigned int8 interr, unsigned int8 can_mode)
+{
+   int8 freq = 0;
+   can_init();
+   
+//!   can_set_mode(CAN_OP_CONFIG);
+//!   can_set_id(RX0MASK,0x7E0,CAN_USE_EXTENDED_ID);
+//!   can_set_id(RX0FILTER0,0x7E0,CAN_USE_EXTENDED_ID);
+//!   can_set_id(RX0FILTER1,0x7E0,CAN_USE_EXTENDED_ID);
+//!   can_set_id(RX1MASK,0x223,CAN_USE_EXTENDED_ID);
+//!   can_set_id(RX1FILTER2,0x223,CAN_USE_EXTENDED_ID);
+//!   can_set_id(RX1FILTER3,0x223,CAN_USE_EXTENDED_ID);
+//!   can_set_id(RX1FILTER4,0x223,CAN_USE_EXTENDED_ID);
+//!   can_set_id(RX1FILTER5,0x223,CAN_USE_EXTENDED_ID);
+
+   //frequencia_eeprom ? (freq = eeprom_le(EP_ID)) : (freq = detecta_freq());
+  
+   //set_freq_var(freq);
+   can_set_interr(interr);
+   can_set_mode(can_mode); 
+}
+
+
+
 
 
 ///////////////////
