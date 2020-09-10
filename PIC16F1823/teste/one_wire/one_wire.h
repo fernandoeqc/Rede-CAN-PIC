@@ -10,7 +10,7 @@
 #use rs232(baud=9600,parity=N,xmit=0,rcv=1,bits=8,stream=PORT1)
 
 #define LED1 PIN_A5
-#define LED2 PIN_A4
+#define LED2 PIN_A4S
 #define SAIDA1 PIN_C5 //RL rele
 
 // PORTA
@@ -40,3 +40,4 @@
 //#BYTE TRISB     =  0x86
 #BYTE TRISC     =  0x02 //00000010
 #BYTE INTCON    =  0x00
+

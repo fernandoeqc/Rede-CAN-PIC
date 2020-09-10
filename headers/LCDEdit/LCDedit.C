@@ -195,11 +195,11 @@ typedef struct
    #define LCD_LINE_LENGTH 16
 #endif
 
-unsigned int8 lcd_read_nibble(void);
+unsigned int lcd_read_nibble(void);
 
-unsigned int8 lcd_read_byte(void)
+unsigned int lcd_read_byte(void)
 {
-   unsigned int8 low,high;
+   unsigned int low,high;
 
  #if defined(__PCB__)
    set_tris_lcd(LCD_INPUT_MAP);
@@ -244,10 +244,10 @@ unsigned int8 lcd_read_byte(void)
    return( (high<<4) | low);
 }
 
-unsigned int8 lcd_read_nibble(void)
+unsigned int lcd_read_nibble(void)
 {
   #if (defined(LCD_DATA4) && defined(LCD_DATA5) && defined(LCD_DATA6) && defined(LCD_DATA7))
-   unsigned int8 n = 0x00;
+   unsigned int n = 0x00;
 
    /* Read the data port */
    n |= input(LCD_DATA4);
@@ -261,7 +261,7 @@ unsigned int8 lcd_read_nibble(void)
   #endif
 }
 
-void lcd_send_nibble(unsigned int8 n)
+void lcd_send_nibble(unsigned int n)
 {
   #if (defined(LCD_DATA4) && defined(LCD_DATA5) && defined(LCD_DATA6) && defined(LCD_DATA7))
    /* Write to the data port */
@@ -279,7 +279,7 @@ void lcd_send_nibble(unsigned int8 n)
    lcd_output_enable(0);
 }
 
-void lcd_send_byte(unsigned int8 address, unsigned int8 n)
+void lcd_send_byte(unsigned int address, unsigned int n)
 {
   #if defined(__PCB__)
    set_tris_lcd(LCD_OUTPUT_MAP);
@@ -302,14 +302,14 @@ void lcd_send_byte(unsigned int8 address, unsigned int8 n)
 
 #define LCD_EXTENDED_NEWLINE
 #if defined(LCD_EXTENDED_NEWLINE)
-unsigned int8 g_LcdX = 0x00;
-unsigned int8 g_LcdY = 0b0;
+unsigned int g_LcdX = 0x00;
+unsigned int g_LcdY = 0b0;
 #endif
 
 void lcd_init(void) 
 {
-   unsigned int8 i;
-   unsigned int8 LCD_INIT_STRING[4] = {0x20 | (LCD_TYPE << 2), 0xc, 1, 6};
+   unsigned int i;
+   unsigned int LCD_INIT_STRING[4] = {0x20 | (LCD_TYPE << 2), 0xc, 1, 6};
                              // These bytes need to be sent to the LCD
                              // to start it up.
    
@@ -356,9 +356,9 @@ void lcd_init(void)
   #endif
 }
 
-void lcd_gotoxy(unsigned int1 x, int8 y)
+void lcd_gotoxy(unsigned int1 x, int y)
 {
-   unsigned int8 address;
+   unsigned int address;
    
    if(y)
       address=LCD_LINE_TWO;
@@ -420,7 +420,7 @@ void lcd_putc(char c)
    }
 }
  
-char lcd_getc(unsigned int8 x, unsigned int8 y)
+char lcd_getc(unsigned int x, unsigned int y)
 {
    char value;
 
@@ -438,7 +438,7 @@ char lcd_getc(unsigned int8 x, unsigned int8 y)
 // ptr points to an array of 8 bytes, where each byte is the next row of
 //    pixels.  only bits 0-4 are used.  the last row is the cursor row, and
 //    usually you will want to leave this byte 0x00.
-void lcd_set_cgram_char(unsigned int8 which, unsigned int8 *ptr)
+void lcd_set_cgram_char(unsigned int which, unsigned int *ptr)
 {
    unsigned int i;
 
@@ -462,7 +462,7 @@ void lcd_cursor_on(int1 on)
 }
 
 void lcd_putc_hexa(unsigned int32 hexa){
-   unsigned int8 i = 0,
+   unsigned int i = 0,
                  word[4],
                  tamanho = 1;
    unsigned int32 hexa_temp = 0;

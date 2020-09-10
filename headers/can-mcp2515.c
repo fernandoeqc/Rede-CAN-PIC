@@ -127,8 +127,8 @@ void can_init(void)
    // b_rxb0ctrl=0;
    b_rxb0ctrl.rxm=CAN_RX_VALID;
    b_rxb0ctrl.bukt=CAN_USE_RX_DOUBLE_BUFFER;
-   mcp2510_write(RXB0CTRL, (unsigned int8)b_rxb0ctrl);
-   mcp2510_write(RXB1CTRL, (unsigned int8)b_rxb0ctrl);
+   mcp2510_write(RXB0CTRL, (unsigned int)b_rxb0ctrl);
+   mcp2510_write(RXB1CTRL, (unsigned int)b_rxb0ctrl);
 
    //if you want to configure the TXnRTS pins, do it here.  default is off
 
@@ -155,7 +155,7 @@ void can_init(void)
 //// 50Kbps ----- BRP = 4 / PS1  = 5 /  PSG = 2 / PS2 = 5
 ////              #######################################
   
-void set_freq_var(int8 freq)
+void set_freq_var(int freq)
 {
    switch(freq)
    {
@@ -243,9 +243,9 @@ void can_set_baud()
    new_CNF3.wakfil=CAN_BRG_WAKE_FILTER;
    new_CNF3.sof=0;
 
-   mcp2510_write(CNF1, (unsigned int8)new_CNF1);
-   mcp2510_write(CNF2, (unsigned int8)new_CNF2);
-   mcp2510_write(CNF3, (unsigned int8)new_CNF3);
+   mcp2510_write(CNF1, (unsigned int)new_CNF1);
+   mcp2510_write(CNF2, (unsigned int)new_CNF2);
+   mcp2510_write(CNF3, (unsigned int)new_CNF3);
 
 //!   mcp2510_write(CNF1, MCP_8MHz_250kBPS_CFG1);
 //!   mcp2510_write(CNF1, MCP_8MHz_250kBPS_CFG2);
@@ -263,7 +263,7 @@ void can_set_mode(CAN_OP_MODE mode)
    old_CANCTRL.reqop=mode;
    old_CANCTRL.osm=1;//one shot mode
 
-   mcp2510_write(CANCTRL, (unsigned int8)old_CANCTRL);
+   mcp2510_write(CANCTRL, (unsigned int)old_CANCTRL);
 
    do
    {
@@ -287,10 +287,10 @@ void can_set_mode(CAN_OP_MODE mode)
 //     ext - Set to TRUE if this buffer uses an extended ID, FALSE if not
 //
 ////////////////////////////////////////////////////////////////////////
-void can_set_id(unsigned int8 addr, unsigned int32 id, int1 ext)
+void can_set_id(unsigned int addr, unsigned int32 id, int1 ext)
 {
-   unsigned int8 converted_id[4];
-   unsigned int8 *ptr;
+   unsigned int converted_id[4];
+   unsigned int *ptr;
 
    ptr=&converted_id[3];   //3=eidl, 2=eidh, 1=sidl, 0=sidh
 
@@ -357,11 +357,11 @@ void can_set_id(unsigned int8 addr, unsigned int32 id, int1 ext)
 //     The ID of the buffer
 //
 ////////////////////////////////////////////////////////////////////////
-unsigned int32 can_get_id(unsigned int8 addr, int1 ext)
+unsigned int32 can_get_id(unsigned int addr, int1 ext)
 {
    unsigned int32 ret;
-   unsigned int8 * ptr;
-   unsigned int8 converted_id[4];
+   unsigned int * ptr;
+   unsigned int converted_id[4];
 
    ptr=&converted_id[3];   //3=eidl, 2=eidh, 1=sidl, 0=sidh
 
@@ -421,15 +421,15 @@ unsigned int32 can_get_id(unsigned int8 addr, int1 ext)
 //       If un-successful, will return FALSE
 //
 ////////////////////////////////////////////////////////////////////////
-int1 can_putd(unsigned int32 id, unsigned int8 * data, unsigned int8 len, unsigned int8 priority, int1 ext, int1 rtr)
+int1 can_putd(unsigned int32 id, unsigned int * data, unsigned int len, unsigned int priority, int1 ext, int1 rtr)
 {
-   unsigned int8 i;
-   unsigned int8 port;
+   unsigned int i;
+   unsigned int port;
 
-   unsigned int8 TXRXBaD0;
-   unsigned int8 TXBaCTRL;
-   unsigned int8 TXRXBaEIDL;
-   unsigned int8 TXBaDLC;
+   unsigned int TXRXBaD0;
+   unsigned int TXBaCTRL;
+   unsigned int TXRXBaEIDL;
+   unsigned int TXBaDLC;
 
    struct txbNctrl_struct b_TXBaCTRL;
    struct rxbNdlc_struct b_TXBaDLC;
@@ -483,7 +483,7 @@ int1 can_putd(unsigned int32 id, unsigned int8 * data, unsigned int8 len, unsign
    memset(&b_TXBaCTRL,mcp2510_read(TXBaCTRL),1);
    
    b_TXBaCTRL.txpri=priority;
-   mcp2510_write(TXBaCTRL, (unsigned int8)b_TXBaCTRL);
+   mcp2510_write(TXBaCTRL, (unsigned int)b_TXBaCTRL);
 
    //set tx mask
    can_set_id(TXRXBaEIDL, id, ext);
@@ -492,7 +492,7 @@ int1 can_putd(unsigned int32 id, unsigned int8 * data, unsigned int8 len, unsign
    //b_TXBaDLC=len;
    memset(&b_TXBaDLC,len,1);
    b_TXBaDLC.rtr=rtr;
-   mcp2510_write(TXBaDLC, (unsigned int8)b_TXBaDLC);
+   mcp2510_write(TXBaDLC, (unsigned int)b_TXBaDLC);
 
    //write to buffer
     for (i=TXRXBaD0; i<(TXRXBaD0 + len); i++)
@@ -505,7 +505,7 @@ int1 can_putd(unsigned int32 id, unsigned int8 * data, unsigned int8 len, unsign
    //b_TXBaCTRL=mcp2510_read(TXBaCTRL);
    memset(&b_TXBaCTRL,mcp2510_read(TXBaCTRL),1);
    b_TXBaCTRL.txreq=1;
-   mcp2510_write(TXBaCTRL, (unsigned int8)b_TXBaCTRL);
+   mcp2510_write(TXBaCTRL, (unsigned int)b_TXBaCTRL);
    
    
    #if CAN_DO_DEBUG
@@ -544,22 +544,22 @@ int1 can_putd(unsigned int32 id, unsigned int8 * data, unsigned int8 len, unsign
 //      if there was none.
 //
 ////////////////////////////////////////////////////////////////////////
-int1 can_getd(unsigned int32 & id, unsigned int8 * data, unsigned int8 & len, struct rx_stat & stat)
+int1 can_getd(unsigned int32 & id, unsigned int * data, unsigned int & len, struct rx_stat & stat)
 {
-   unsigned int8 i;
+   unsigned int i;
 
    struct struct_RXB0CTRL b_RXB0CTRL;
    struct struct_RXB1CTRL b_RXB1CTRL;
    struct struct_EFLG b_EFLG;
 
-   unsigned int8 RXBaDLC;
+   unsigned int RXBaDLC;
    struct rxbNdlc_struct b_RXBaDLC;
 
-   unsigned int8 TXRXBaSIDL;
+   unsigned int TXRXBaSIDL;
    struct struct_TXRXBaSIDL b_TXRXBaSIDL;
 
 
-   unsigned int8 RXBaD0;
+   unsigned int RXBaD0;
    struct struct_CANINTF b_CANINTF;
 
    //b_CANINTF=mcp2510_read(CANINTF);
@@ -577,7 +577,7 @@ int1 can_getd(unsigned int32 & id, unsigned int8 * data, unsigned int8 & len, st
 
         stat.err_ovfl=b_EFLG.rx0ovr;
         b_EFLG.rx0ovr=0;
-        mcp2510_write(EFLG, (unsigned int8)b_EFLG);
+        mcp2510_write(EFLG, (unsigned int)b_EFLG);
 
         if (b_RXB0CTRL.bukt)
         {
@@ -594,7 +594,7 @@ int1 can_getd(unsigned int32 & id, unsigned int8 * data, unsigned int8 & len, st
 
         stat.err_ovfl=b_EFLG.rx1ovr;
         b_EFLG.rx1ovr=0;
-        mcp2510_write(EFLG, (unsigned int8)b_EFLG);
+        mcp2510_write(EFLG, (unsigned int)b_EFLG);
 
         stat.filthit=b_RXB1CTRL.filhit0;
         RXBaDLC=RXB1DLC;
@@ -643,7 +643,7 @@ int1 can_getd(unsigned int32 & id, unsigned int8 * data, unsigned int8 & len, st
        b_CANINTF.rx0if=0;
     }
     
-    mcp2510_write(CANINTF, (unsigned int8)b_CANINTF);
+    mcp2510_write(CANINTF, (unsigned int)b_CANINTF);
 
     #if CAN_DO_DEBUG
        
@@ -726,27 +726,27 @@ void can_abort(void)
    //b_CANCTRL=mcp2510_read(CANCTRL);
    memset(&b_CANCTRL,mcp2510_read(CANCTRL),1);
    b_CANCTRL.abat=1;
-   mcp2510_write(CANCTRL, (unsigned int8)b_CANCTRL);
+   mcp2510_write(CANCTRL, (unsigned int)b_CANCTRL);
 
    delay_ms(5);
    b_CANCTRL.abat=0;
-   mcp2510_write(CANCTRL, (unsigned int8)b_CANCTRL);
+   mcp2510_write(CANCTRL, (unsigned int)b_CANCTRL);
 }
 
 
 
 
 
-void can_set_interr(int8 interr)
+void can_set_interr(int interr)
 {
    ///////ADICIONADO: FERNANDO
    mcp2510_write(CANINTE,interr);
 }
 
 //CORRIGIR
-int8 detecta_freq(void)
+int detecta_freq(void)
 {
-   int8 freq, i;
+   int freq, i;
    for(freq = 0; freq < 6; freq++)
    {
       can_set_mode(CAN_OP_CONFIG);
@@ -765,9 +765,9 @@ int8 detecta_freq(void)
 }
 
 //CORRIGIR
-void setup_can(int1 frequencia_eeprom, unsigned int8 interr, unsigned int8 can_mode)
+void setup_can(int1 frequencia_eeprom, unsigned int interr, unsigned int can_mode)
 {
-   int8 freq = 0;
+   int freq = 0;
    can_init();
    
 //!   can_set_mode(CAN_OP_CONFIG);
@@ -810,9 +810,9 @@ void setup_can(int1 frequencia_eeprom, unsigned int8 interr, unsigned int8 can_m
 
 //data clocked in on rising edge
 //data driven out on falling edge
-unsigned int8 mcp2510_read(unsigned int8 address)
+unsigned int mcp2510_read(unsigned int address)
 {
-   unsigned int8 data;
+   unsigned int data;
 
    output_low(EXT_CAN_CS);
    
@@ -825,9 +825,9 @@ unsigned int8 mcp2510_read(unsigned int8 address)
    return(data);
 }
 
-unsigned int8 mcp2510_status(void) 
+unsigned int mcp2510_status(void) 
 {
-   unsigned int8 data;
+   unsigned int data;
    
    output_low(EXT_CAN_CS);
    
@@ -841,7 +841,7 @@ unsigned int8 mcp2510_status(void)
 }
 
 
-void mcp2510_write(unsigned int8 address, unsigned int8 data)
+void mcp2510_write(unsigned int address, unsigned int data)
 {
    output_low(EXT_CAN_CS);
    
@@ -852,7 +852,7 @@ void mcp2510_write(unsigned int8 address, unsigned int8 data)
    output_high(EXT_CAN_CS);
 }
 
-void mcp2510_command(unsigned int8 command)
+void mcp2510_command(unsigned int command)
 {
    output_low(EXT_CAN_CS);
    
@@ -861,7 +861,7 @@ void mcp2510_command(unsigned int8 command)
    output_high(EXT_CAN_CS);
 }
 
-void mcp2510_bitmodify(unsigned int8 address, unsigned int8 mask, unsigned int8 data)
+void mcp2510_bitmodify(unsigned int address, unsigned int mask, unsigned int data)
 {
    output_low(EXT_CAN_CS);
    

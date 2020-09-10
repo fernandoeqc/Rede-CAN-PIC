@@ -53,10 +53,10 @@ void  TIMER0_isr(void)
    //output_toggle(LED1);
 }
 
-int8 dados_env_buf[8];
+int dados_env_buf[8];
 int1 verif_novo_dado(*dadosEnv, tam_dado)
 {
-   int8 i;
+   int i;
    int1 diferente = 0b0;
    
    for(i = 0; i < tam_dado; i++)
@@ -79,14 +79,14 @@ void main()
    struct rx_stat rxstat;
    int32 rx_id;
    //int32 tx_id;
-   int8 rx_len, i;   
+   int rx_len, i;   
    
-   int8 dadosEnv[8] = {0xAA,0x40},
+   int dadosEnv[8] = {0xAA,0x40},
         dadosRec[8],
         k = 0x00;
         
-   //int8 teste[10] = {0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff};
-   //int8 num[10] = {0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, 0x7f, 0x6f, 0x3f};
+   //int teste[10] = {0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff};
+   //int num[10] = {0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, 0x7f, 0x6f, 0x3f};
    //int1 proximo = 0;
    //char k;
 

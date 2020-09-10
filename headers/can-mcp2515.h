@@ -101,7 +101,7 @@
 
 ////BRP
 #IFNDEF CAN_BRG_PRESCALAR
-  int8 CAN_BRG_PRESCALAR = 0;  //baud rate generator prescalar (def: 4) ( Tq = (2 x (PRE + 1))/Fosc )
+  int CAN_BRG_PRESCALAR = 0;  //baud rate generator prescalar (def: 4) ( Tq = (2 x (PRE + 1))/Fosc )
 #ENDIF
 
 /////////////// register CNF2
@@ -115,12 +115,12 @@
 
 ////PS1
 #ifndef CAN_BRG_PHASE_SEGMENT_1
- int8 CAN_BRG_PHASE_SEGMENT_1 = 1; //phase segment 1 (def: 6 x Tq)
+ int CAN_BRG_PHASE_SEGMENT_1 = 1; //phase segment 1 (def: 6 x Tq)
 #endif
 
 ////PSG   
 #ifndef CAN_BRG_PROPAGATION_TIME
- int8 CAN_BRG_PROPAGATION_TIME = 1; //propagation time select (def: 3 x Tq)
+ int CAN_BRG_PROPAGATION_TIME = 1; //propagation time select (def: 3 x Tq)
 #endif
 
 /////////////// register CNF3
@@ -130,7 +130,7 @@
 
 ////PS2
 #ifndef CAN_BRG_PHASE_SEGMENT_2
- int8 CAN_BRG_PHASE_SEGMENT_2 = 2; //phase segment 2 time select (def: 6 x Tq)
+ int CAN_BRG_PHASE_SEGMENT_2 = 2; //phase segment 2 time select (def: 6 x Tq)
 #endif
 
 #ifndef CAN_USE_RX_DOUBLE_BUFFER
@@ -454,15 +454,15 @@ struct rx_stat {
 void  can_init(void);
 void  can_set_baud(void);
 void  can_set_mode(CAN_OP_MODE mode);
-void can_set_id(unsigned int8 addr, unsigned int32 id, int1 ext);
-unsigned int32 can_get_id(unsigned int8 addr, int1 ext);
-int1  can_putd(unsigned int32 id, unsigned int8 * data, unsigned int8 len, unsigned int8 priority, int1 ext, int1 rtr);
-int1  can_getd(unsigned int32 & id, unsigned int8 * data, unsigned int8 & len, struct rx_stat & stat);
+void can_set_id(unsigned int addr, unsigned int32 id, int1 ext);
+unsigned int32 can_get_id(unsigned int addr, int1 ext);
+int1  can_putd(unsigned int32 id, unsigned int * data, unsigned int len, unsigned int priority, int1 ext, int1 rtr);
+int1  can_getd(unsigned int32 & id, unsigned int * data, unsigned int & len, struct rx_stat & stat);
 
 void mcp2510_init();
-void mcp2510_command(unsigned int8 command);
-void mcp2510_write(unsigned int8 address, unsigned int8 data);
-unsigned int8 mcp2510_status(void);
-unsigned int8 mcp2510_read(unsigned int8 address);
+void mcp2510_command(unsigned int command);
+void mcp2510_write(unsigned int address, unsigned int data);
+unsigned int mcp2510_status(void);
+unsigned int mcp2510_read(unsigned int address);
 
 #endif

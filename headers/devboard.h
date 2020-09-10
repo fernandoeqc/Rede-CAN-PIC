@@ -3,7 +3,7 @@
 //!#ENDIF
 
 int1 listen_bus(void);
-int8 detecta_freq(void);
+int detecta_freq(void);
 void setup_can(void);
 void setup_lcd(void);
 void setup_iterrupt(void);

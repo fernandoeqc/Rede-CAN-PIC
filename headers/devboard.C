@@ -1,6 +1,6 @@
-int8 detecta_freq(void)
+int detecta_freq(void)
 {
-   int8 freq, i;
+   int freq, i;
    for(freq = 0; freq < 6; freq++)
    {
       can_set_mode(CAN_OP_CONFIG);
@@ -22,7 +22,7 @@ int8 detecta_freq(void)
 
 void setup_can(void)
 {
-   int8 freq = 0;
+   int freq = 0;
    can_init();
    
 //!   can_set_mode(CAN_OP_CONFIG);
@@ -89,7 +89,7 @@ char key = 0,
 
 char teclado()
 {
-   int8 i = 0,
+   int i = 0,
         j = 0,
         portd = 0;
    
@@ -130,7 +130,7 @@ char teclado()
 }
 #ENDIF
 
-void piscaLed(char nPisca, unsigned int16 delay, unsigned int8 led)
+void piscaLed(char nPisca, unsigned int16 delay, unsigned int led)
 {
      char i = 0;
      
@@ -142,9 +142,9 @@ void piscaLed(char nPisca, unsigned int16 delay, unsigned int8 led)
      }
 }
 
-void eeprom_grava(unsigned int8 address, unsigned int8 tamanho, unsigned int32 hexa)
+void eeprom_grava(unsigned int address, unsigned int tamanho, unsigned int32 hexa)
 {
-   unsigned int8 i = 0, bytes[4];               
+   unsigned int i = 0, bytes[4];               
    
    //separa bytes
    for (i = 0; i < tamanho; i++)
@@ -161,9 +161,9 @@ void eeprom_grava(unsigned int8 address, unsigned int8 tamanho, unsigned int32 h
    }
 }
 
-unsigned int32 eeprom_le(unsigned int8 address, unsigned int8 tamanho)
+unsigned int32 eeprom_le(unsigned int address, unsigned int tamanho)
 {
-   unsigned int8 i = 0;
+   unsigned int i = 0;
    unsigned int32 bytes = 0;
    
    for(i = tamanho; i > 0; i--)

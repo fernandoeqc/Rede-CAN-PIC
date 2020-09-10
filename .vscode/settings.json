@@ -11,6 +11,7 @@
         "**/__history": true
     },
     "files.associations": {
-        "devboard.C": "cpp"
+        "devboard.C": "cpp",
+        "LCDedit.C": "cpp"
     }
 }
