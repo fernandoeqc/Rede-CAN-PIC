@@ -64,7 +64,7 @@ unsigned int trata_interr()
 void main()
 {             
    int dadosEnv[8] = {0xAA,0xBB};
-   int contaMin = 0;
+   int contaSeg = 0;
    int retorno = 0;
 
    //VEJA placa_plus.h
@@ -156,13 +156,16 @@ void main()
          um_segundo = 0b0;
 
          piscaLed(1,50,LED2);
-         retorno = can_putd(0x71F,dadosEnv,2,0,0,0);
-         //delay_ms(10);
          
-         contaMin++;
-         if(contaMin > 5)
+         can_putd(0x71F,dadosEnv,2,0,0,0);
+         //delay_ms(10);
+         //retorno = mcp2510_read(TXB0CTRL);
+         //write_eeprom(0x08,retorno);
+         
+         contaSeg++;
+         if(contaSeg > 5)
          {
-            contaMin = 0;
+            contaSeg = 0;
          }
       }
    }

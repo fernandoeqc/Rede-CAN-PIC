@@ -733,10 +733,6 @@ void can_abort(void)
    mcp2510_write(CANCTRL, (unsigned int)b_CANCTRL);
 }
 
-
-
-
-
 void can_set_interr(int interr)
 {
    ///////ADICIONADO: FERNANDO
