@@ -26,7 +26,8 @@ unsigned int trata_interr()
    enum {CAN_RX0_INT=1,CAN_RX1_INT=2,CAN_TX0_INT=4,CAN_TX1_INT=8,CAN_TX2_INT=16,CAN_ERROR_INT=32,CAN_WAKE_INT=64,CAN_MESERR_INT=128};
 
    int_id = mcp2510_read(CANINTF);
-   if(int_id)
+   
+  /*  if(int_id)
    {
       for (i = 1; i != 0; i<<=1)
       {
@@ -57,8 +58,16 @@ unsigned int trata_interr()
          break; //erro!
    }
 
-   int_id &= ~int_unitario;
+   int_id &= ~int_unitario; */
    return int_id;
+}
+
+void reset_can(void)
+{
+   can_init();
+   can_set_mode(CAN_OP_CONFIG);
+   can_set_interr(0x80);//tx0 e mserr
+   can_set_mode(CAN_OP_NORMAL);
 }
 
 void main()
@@ -104,10 +113,7 @@ void main()
    output_low(LED1);
    delay_ms(200);
  
-   can_init();
-   can_set_mode(CAN_OP_CONFIG);
-   can_set_interr(0x80);//tx0 e mserr
-   can_set_mode(CAN_OP_NORMAL);
+   reset_can();
    
 //===========REGISTRADORES===================================
    disable_interrupts(GLOBAL);                 // habilitar interr global
@@ -121,15 +127,16 @@ void main()
 
    while(TRUE)
    {   
-      /* 
       if(flag_interr)
       {
          flag_interr = 0b0;
-         trata_interr();
-         output_low(AVISO);
-         piscaLed(2,50,LED1);
+         retorno = trata_interr();
+         piscaLed(2,70,LED2);
+         write_eeprom(0x09,retorno);
+         delay_ms(10);
+         //output_low(AVISO);
       }
-      else
+      /*else
       {
          output_high(AVISO);
       }
@@ -155,22 +162,24 @@ void main()
       {
          um_segundo = 0b0;
 
-         piscaLed(1,50,LED2);
+         //piscaLed(1,50,LED2);
          
          can_putd(0x71F,dadosEnv,2,0,0,0);
-         //delay_ms(10);
-         //retorno = mcp2510_read(TXB0CTRL);
-         //write_eeprom(0x08,retorno);
          
          contaSeg++;
          if(contaSeg > 5)
          {
             contaSeg = 0;
+   
+            //reset_can();
          }
       }
    }
+   
+   if(um_minuto)
+   {
+      um_minuto = 0b0;
+      //write_eeprom(0x08,retorno);
+   }
    //#error ********* continuar trabalho.txt *********
 }
-
-
-
