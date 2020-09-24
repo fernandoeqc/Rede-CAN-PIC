@@ -461,9 +461,62 @@ void lcd_cursor_on(int1 on)
    else lcd_send_byte(0,0x0C);           //turn LCD cursor OFF
 }
 
+
+//ADD:FERNANDO
+//imprime inteiros de ate 32 bits em decimal
+void lcd_putc_deca(unsigned int32 deca){
+   unsigned int i = 0,
+                 niblle[8] = {0,0,0,0,0,0,0,0},
+                 tamanho = 0;
+   unsigned int32 deca_temp = 0;
+   
+
+/*    if(deca > 9999)
+   {
+      lcd_putc("#");
+      return;
+   }
+
+   //checa tamanho
+   deca_temp = deca;
+   for(i = 1; i <= 8; i++)
+   {
+     if(deca_temp) tamanho = i;
+     deca_temp = deca_temp >> 4;   
+   }
+ */
+
+   //separa nibles
+   deca_temp = deca;
+   for(i = 0; deca_temp > 0; i++)
+   {
+      niblle[i] = deca_temp % 10;
+      deca_temp = deca_temp / 10;
+      niblle[i] += 0x30;
+      tamanho++;
+   }
+   
+   
+   //imprime na ordem inversa
+   while(tamanho) 
+   {
+      if (g_LcdX >= LCD_LINE_LENGTH)
+      {
+         g_LcdX = 0;
+         g_LcdY = ~g_LcdY;
+         lcd_gotoxy(g_LcdX,g_LcdY);   
+      }
+      lcd_send_byte(1,niblle[tamanho-=1]);
+      g_LcdX++;
+   }
+}
+
+
+//ADD:FERNANDO
+//imprime inteiros de ate 32 bits em hexadecimal
 void lcd_putc_hexa(unsigned int32 hexa){
    unsigned int i = 0,
-                 word[4],
+                 niblle[4],
                  tamanho = 1;
    unsigned int32 hexa_temp = 0;
    
@@ -479,8 +532,8 @@ void lcd_putc_hexa(unsigned int32 hexa){
    hexa_temp = 0x0F;
    for(i = 0; i < tamanho; i++)
    {
-     word[i] = (hexa & hexa_temp) >> (4*i);
-     (word[i] < 10) ? (word[i] += 0x30) : (word[i] += 0x37);
+     niblle[i] = (hexa & hexa_temp) >> (4*i);
+     (niblle[i] < 10) ? (niblle[i] += 0x30) : (niblle[i] += 0x37);
      hexa_temp <<= 4;
    }
    
@@ -495,7 +548,7 @@ void lcd_putc_hexa(unsigned int32 hexa){
          lcd_gotoxy(g_LcdX,g_LcdY);
          g_LcdX++;
       }
-      lcd_send_byte(1,word[tamanho-=1]);
+      lcd_send_byte(1,niblle[tamanho-=1]);
    }
 }
 

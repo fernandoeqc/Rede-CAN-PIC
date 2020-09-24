@@ -9,16 +9,7 @@
 #define BOTAO         PIN_A3 //I
 #define LED1          PIN_A4 //O
 
-//struct usado na funcao piscaLedStatus()
-struct latx{
-   unsigned int8 status;
-   unsigned int8 statusBuf;
-   unsigned int8 pausa;
-   unsigned int8 pausaBuf;
-   unsigned int16 porta;
-   unsigned int8 pino;
 
-};
 
 ///#pragma word lede1 = 0x10C
 ///#pragma bit LED1_IN = lede1.4
@@ -90,8 +81,7 @@ volatile unsigned int  counter = 0,
                        sec = 0,
                        min = 0;
                                               
-volatile unsigned int1 
-                       um_periodo = 0b0,
+volatile unsigned int1 um_periodo = 0b0,
                        um_segundo = 0b0, 
                        um_minuto = 0b0,
                        uma_hora = 0b0,
@@ -109,7 +99,7 @@ void eeprom_grava(unsigned int address, unsigned int tamanho, unsigned int32 hex
 unsigned int32 eeprom_le(unsigned int address, unsigned int tamanho);
 
 
-#INT_TIMER1
+#pragma INT_TIMER1
 void timer1_isr(){  // interrupt routine    
    counter--;  // decrements counter which is set to it_per_sec 
 
@@ -154,6 +144,15 @@ void external_can_interrupt ()
 // Recebe: status_led = qte de piscadas
 //		   porta = registrador responsavel pelo led (recomendado LATx)	
 ////////////////////////////////////////////////////////////////////////
+struct latx{
+   unsigned int8 status;
+   unsigned int8 statusBuf;
+   unsigned int8 pausa;
+   unsigned int8 pausaBuf;
+   unsigned int16 porta;
+   unsigned int8 pino;
+
+};
 volatile unsigned int8 contaPeriodo = TEMPOCICLOLEDS;
 void piscaLedStatus(struct latx *lat){
 	struct latx latCopy;

@@ -9,34 +9,34 @@ void setup_lcd(void);
 void setup_iterrupt(void);
 void setup_io(void);
 
-#IFDEF LED_B
-   #DEFINE LED1  PIN_B0
-   #DEFINE LED2  PIN_B1
-   #DEFINE LED3  PIN_B2
-   #DEFINE LED4  PIN_B3
-   #DEFINE LED5  PIN_B4
-   #DEFINE LED6  PIN_B5
-   #DEFINE LED7  PIN_B6
-   #DEFINE LED8  PIN_B7
-#ELSE
-   #IFDEF LED_D
-      #DEFINE LED1 PIN_D0
-      #DEFINE LED2 PIN_D1
-      #DEFINE LED3 PIN_D2
-      #DEFINE LED4 PIN_D3
-      #DEFINE LED5 PIN_D4
-      #DEFINE LED6 PIN_D5
-      #DEFINE LED7 PIN_D6
-      #DEFINE LED8 PIN_D7
-   #ENDIF
-#ENDIF
-
-#IFDEF SPI1_ON
-   #DEFINE CS    PIN_C2
-   #DEFINE SDO   PIN_C5
-   #DEFINE SDI   PIN_C4  
-   #DEFINE SCK   PIN_C3
-#ENDIF
 
 
+#ifdef LED_B
+   #define LED0  PIN_B0
+   #define LED1  PIN_B1
+   #define LED2  PIN_B2
+   #define LED3  PIN_B3
+   #define LED4  PIN_B4
+   #define LED5  PIN_B5
+   #define LED6  PIN_B6
+   #define LED7  PIN_B7
+#else
+   #ifdef LED_D
+      #define LED0 PIN_D0
+      #define LED1 PIN_D1
+      #define LED2 PIN_D2
+      #define LED3 PIN_D3
+      #define LED4 PIN_D4
+      #define LED5 PIN_D5
+      #define LED6 PIN_D6
+      #define LED7 PIN_D7
+   #endif
+#endif
+
+#ifdef SPI1_ON
+   #define CS    PIN_C2
+   #define SDO   PIN_C5
+   #define SDI   PIN_C4  
+   #define SCK   PIN_C3
+#endif
 

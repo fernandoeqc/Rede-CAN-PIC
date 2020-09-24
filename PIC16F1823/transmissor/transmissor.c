@@ -27,7 +27,7 @@ unsigned int trata_interr()
 
    int_id = mcp2510_read(CANINTF);
    
-  /*  if(int_id)
+   if(int_id)
    {
       for (i = 1; i != 0; i<<=1)
       {
@@ -58,7 +58,7 @@ unsigned int trata_interr()
          break; //erro!
    }
 
-   int_id &= ~int_unitario; */
+   int_id &= ~int_unitario;
    return int_id;
 }
 
@@ -132,8 +132,8 @@ void main()
          flag_interr = 0b0;
          retorno = trata_interr();
          piscaLed(2,70,LED2);
-         write_eeprom(0x09,retorno);
-         delay_ms(10);
+         //write_eeprom(0x09,retorno);
+         //delay_ms(10);
          //output_low(AVISO);
       }
       /*else
@@ -165,7 +165,7 @@ void main()
          //piscaLed(1,50,LED2);
          
          can_putd(0x71F,dadosEnv,2,0,0,0);
-         
+         //can_msg_ack();
          contaSeg++;
          if(contaSeg > 5)
          {

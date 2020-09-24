@@ -28,13 +28,6 @@
 //// in object code form are not restricted in any way.              ////
 /////////////////////////////////////////////////////////////////////////
 
-#IFDEF SPI1_ON
-   #DEFINE CS    PIN_C2
-   #DEFINE SDO   PIN_C5
-   #DEFINE SDI   PIN_C4  
-   #DEFINE SCK   PIN_C3
-#ENDIF
-
 
 //#define CAN_DO_DEBUG TRUE
 
@@ -90,19 +83,19 @@
  #define CAN_DO_DEBUG FALSE
 #endif
 
-#IFNDEF CAN_USE_EXTENDED_ID
+#ifndef CAN_USE_EXTENDED_ID
   #define CAN_USE_EXTENDED_ID         FALSE
-#ENDIF
+#endif
 
 /////////////// register CNF1 
-#IFNDEF CAN_BRG_SYNCH_JUMP_WIDTH
+#ifndef CAN_BRG_SYNCH_JUMP_WIDTH
   #define CAN_BRG_SYNCH_JUMP_WIDTH  0  //synchronized jump width (def: 1 x Tq)
-#ENDIF
+#endif
 
 ////BRP
-#IFNDEF CAN_BRG_PRESCALAR
+#ifndef CAN_BRG_PRESCALAR
   int CAN_BRG_PRESCALAR = 0;  //baud rate generator prescalar (def: 4) ( Tq = (2 x (PRE + 1))/Fosc )
-#ENDIF
+#endif
 
 /////////////// register CNF2
 #ifndef CAN_BRG_SEG_2_PHASE_TS
@@ -153,7 +146,7 @@ struct struct_CANCTRL {
    int1 clken; //2   //clkout pin enable
    int1 osm; //3
    int1 abat;  //4   //abort all pending transmissions
-   CAN_OP_MODE reqop:3; //5:7 //request operation mode
+   enum CAN_OP_MODE reqop:3; //5:7 //request operation mode
 };
 #define CANCTRL   0x0F  //or 1f, or 2f, or 3f ... or 7f
 
@@ -162,9 +155,9 @@ enum CAN_INT_CODE {CAN_INT_RX1=7, CAN_INT_RX0=6, CAN_INT_TX2=5, CAN_INT_TX1=4, C
 //can status register READ-ONLY
 struct struct_CANSTAT {
    int1 void0;   //0
-   CAN_INT_CODE icode:3;   //1:3   //interrupt code
+   enum CAN_INT_CODE icode:3;   //1:3   //interrupt code
    int1 void4;   //4
-   CAN_OP_MODE opmode:3;   //5:7   //operation mode status
+   enum CAN_OP_MODE opmode:3;   //5:7   //operation mode status
 };
 #define CANSTAT 0x0E //or 1e, or 2e ... or 7e
 

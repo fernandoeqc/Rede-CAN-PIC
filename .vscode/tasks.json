@@ -4,11 +4,20 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "CCS_COMPILER",
+            "label": "CCS_COMPILER 16F18XX",
             "type": "shell",
-            "command": "CCSC +P +DF ${file}",
+            "command": "CCSC +PE +DF +EA  ${file}",
             "presentation": {
-                "reveal": "silent" 
+                "reveal": "never"
+              }          
+        },
+
+        {
+            "label": "CCS_COMPILER 18FXXXX",
+            "type": "shell",
+            "command": "CCSC +FH +P +DF +EA  ${file}",
+            "presentation": {
+                "reveal": "never" 
               }          
         }
     ]

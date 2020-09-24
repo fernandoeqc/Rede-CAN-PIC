@@ -1,6 +1,10 @@
 #Dir
-__history/
+**/__history/**
 .vscode/
+
+
+**__history\display1.c.~364~
+
 
 # Outputs
 *.cof
@@ -15,3 +19,8 @@ __history/
 *.chm
 *.cod
 *.lnk
+
+
+#proteus
+*.DSN
+*.PWI

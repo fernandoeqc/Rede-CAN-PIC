@@ -65,13 +65,6 @@
 
 						
 						
-						
-						 
-						 
-						 
-						 
-						  
-
 #include <can-mcp2515.h>
 
 //IO pins connected to MCP2510
@@ -263,11 +256,14 @@ void can_set_mode(CAN_OP_MODE mode)
    old_CANCTRL.reqop=mode;
    old_CANCTRL.osm=1;//one shot mode
 
+   //mcp2510_write(CANCTRL, 0x9f);
    mcp2510_write(CANCTRL, (unsigned int)old_CANCTRL);
 
    do
    {
       memset(&new_CANSTAT,mcp2510_read(CANSTAT),1);
+      //lcd_putc_hexa(mode);
+      delay_ms(10);
       //old_CANCTRL=mcp2510_read(CANCTRL);     
    } while (new_CANSTAT.opmode != mode);
  
@@ -735,13 +731,30 @@ void can_abort(void)
 
 void can_set_interr(int interr)
 {
-   ///////ADICIONADO: FERNANDO
+   ///////ADICIONADO : FERNANDO
    mcp2510_write(CANINTE,interr);
+}
+
+
+
+int can_msg_ack(void)
+{
+   ///////ADICIONADO : FERNANDO
+   struct txbNctrl_struct b_TXB0CTRL, b_TXB1CTRL, b_TXB2CTRL;
+   int teste = 0;
+
+   b_TXB0CTRL = 0x60;
+   
+   teste = b_TXB0CTRL.mloa;
+
+  return 0;
+
 }
 
 //CORRIGIR
 int detecta_freq(void)
 {
+   ///////ADICIONADO : FERNANDO
    int freq, i;
    for(freq = 0; freq < 6; freq++)
    {
@@ -763,6 +776,7 @@ int detecta_freq(void)
 //CORRIGIR
 void setup_can(int1 frequencia_eeprom, unsigned int interr, unsigned int can_mode)
 {
+   ///////ADICIONADO : FERNANDO
    int freq = 0;
    can_init();
    
