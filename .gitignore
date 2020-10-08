@@ -1,9 +1,8 @@
 #Dir
-**/__history/**
+/__history
 .vscode/
 
 
-**__history\display1.c.~364~
 
 
 # Outputs
@@ -19,6 +18,10 @@
 *.chm
 *.cod
 *.lnk
+
+
+#history
+*.~*~
 
 
 #proteus

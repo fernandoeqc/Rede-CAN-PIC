@@ -1,0 +1,59 @@
+[PROJECT]
+Target=mecanico.hex
+Processor_Text=PIC16F1823
+CCSVerions=5.015
+Compiler=PCM
+Development_Mode=
+ToolSuite=CCS
+CCSVersion=5.015
+[Target Data]
+FileList=mecanico.c
+BuildTool=C-COMPILER
+OptionString=+FM
+AdditionalOptionString=
+BuildRequired=1
+[Directories]
+Include=<default>\;C:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\headers\;C:\Program Files (x86)\PICC\Devices\;C:\Program Files (x86)\PICC\Drivers\
+Library=
+LinkerScript=
+[C:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\PIC16F1823\mecanico\mecanico]
+Type=4
+[mru-list]
+1=mecanico.c
+[defines]
+enabled=0
+chip=1
+D1=
+V1=
+[fileformats]
+forcecoff=1
+debug=4
+error=2
+object=0
+list=0
+scratch=0
+sta=1
+tre=1
+allerrors=1
+allwarnings=1
+stayupne=3
+stayupoe=0
+[mecanico.c]
+Type=4
+Path=
+FileList=
+BuildTool=
+OptionString=
+AdditionalOptionString=
+[Windows]
+0=0000 %S 0 0 796 451 3 0
+[CompilerVersion]
+Fixed=
+[Opened Files]
+1=mecanico.c
+2=..\..\headers\placa_recep_antigo.h
+3=mecanico.h
+4=
+[Units]
+Count=1
+1=mecanico (main)

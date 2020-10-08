@@ -7,7 +7,6 @@
                 "${workspaceFolder}",
                 "C:\\Program Files (x86)\\PICC\\Devices",
                 "${workspaceFolder}\\headers\\LCDEdit",
-                "${workspaceFolder}/PIC18F4520/CAN_loopback",
                 "${workspaceFolder}/headers"
             ],
             "defines": [

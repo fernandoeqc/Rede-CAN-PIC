@@ -173,7 +173,7 @@ void main()
    set_timer1(0);                            // limpar flag TMR1H & TMR1L
    counter = int_per_sec;
    enable_interrupts(GLOBAL); // habilitar interr global
-                              //----------------------------------------------------------
+   //----------------------------------------------------------
 
    output_low(LED1);
    //status = 4; //**************************************************************
