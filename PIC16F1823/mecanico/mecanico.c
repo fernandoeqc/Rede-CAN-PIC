@@ -6,15 +6,25 @@
 
 #include <placa_recep_antigo.h>
 
-void leAdc(int *leitura_adc_t)
-{
-   set_adc_channel(0);
-   delay_us(20);
-   leitura_adc_t[0] = read_adc();
+struct adc {
+   unsigned int8 bateria;
+   unsigned int8 alimentacao;
+};
 
-   set_adc_channel(1);
+void leAdc(struct adc *leitura_adc)
+{
+   struct adc adc_copy;
+   adc_copy = *leitura_adc;
+
+   set_adc_channel(2);
    delay_us(20);
-   leitura_adc_t[1] = read_adc();
+   adc_copy.alimentacao = read_adc();
+
+   set_adc_channel(4);
+   delay_us(20);
+   adc_copy.bateria = read_adc();
+
+   *leitura_adc = adc_copy;
 }
 
 void main()
@@ -22,7 +32,7 @@ void main()
    int8 adc1 = 0, adc2 = 0;
    int8 leitura_adc[2] = {0,0};
 
-   setup_adc_ports(sAN0 | sAN1);
+   setup_adc_ports(sAN2 | sAN4);
    setup_adc(ADC_CLOCK_DIV_32);
 
    //===========REGISTRADORES===================================
@@ -35,13 +45,18 @@ void main()
    enable_interrupts(GLOBAL); // habilitar interr global
    //----------------------------------------------------------
 
+
+
    while (TRUE)
    {
-      if (um_periodo)
+      if (um_segundo)
       {
-         um_periodo = 0;
+         um_segundo = 0;
 
          leAdc(leitura_adc);
+
+         write_eeprom(0x13,leitura_adc[0]); delay_us(50);
+         write_eeprom(0x14,leitura_adc[1]); delay_us(50);
 
          output_toggle(LED1);
       }
