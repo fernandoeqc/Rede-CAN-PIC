@@ -48,23 +48,19 @@
 //DEFINE EEPROM_NOME : PRIMEIRO ENDERECO,TAMANHO BYTES
 
 //conta transmissoes perdidas na CAN - bytes 0 a 3
-#pragma ROM 0xF000 = {"SW5.3435"}
-#define EP_NAO_TRANS 0x00,0x04
-
-//conta transmissoes perdidas na CAN - bytes 0 a 3
-#pragma ROM 0xF008 = {0x00,0x00,0x00,0x0b}
+#pragma ROM 0xF008 = {0x00,0x00,0x00,0x00}
 #define EP_NAO_TRANS 0x00,0x04
 
 //conta quantas horas ligado desde o ultimo reset - bytes 4 a 5
-#pragma ROM 0xF00C = {0x00,0x0d}
+#pragma ROM 0xF00C = {0x00,0x00}
 #define EP_HORA_LIGADO 0x04,0x02
 
 //conta erros de comunicacao com MCP - bytes 6 a 9
-#pragma ROM 0xF00E = {0x00,0x00,0x00,0x11}
+#pragma ROM 0xF00E = {0x00,0x00,0x00,0x0}
 #define EP_MCP 0x06,0x04
 
 //SELETOR DE FREQUENCIA - byte 0A
-#pragma ROM 0xF012 = {0x12}
+#pragma ROM 0xF012 = {0x00}
 #define EP_ID 0x0A,0x01
 
 #define int_per_sec 2
