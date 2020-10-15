@@ -9,16 +9,16 @@
             "command": "CCSC +PE +DF +EA  ${file}",
             "presentation": {
                 "reveal": "never"
-              }          
+            },
+            "problemMatcher": []
         },
-
         {
             "label": "CCS_COMPILER 18FXXXX",
             "type": "shell",
             "command": "CCSC +FH +P +DF +EA  ${file}",
             "presentation": {
-                "reveal": "never" 
-              }          
+                "reveal": "never"
+            }
         }
     ]
 }

@@ -6,22 +6,9 @@
 //constante da funcao piscaLedStatus()
 //1 TEMPOCICLOLEDS == 200mS na configuracao atual
 #define TEMPOCICLOLEDS 30
-#include <placa_recep_antigo.h>
+#include <functions.h>
 
-//SELETOR DE FREQUENCIA - byte 0A
-#pragma ROM 0xF013 = {0x00}
-#define EP_CONTROL_FLAGS 0x0B,0x01
-
-//SELETOR DE FREQUENCIA - byte 0A
-#pragma ROM 0xF014 = {0x00}
-#define EP_ID 0x0C,0x01
-
-//SELETOR DE FREQUENCIA - byte 0A
-#pragma ROM 0xF015 = {0x00}
-#define EP_ID 0x0D,0x01
-
-
-int8 data = 0, last_data = 0;
+unsigned int8 data = 0, last_data = 0, status_motor = 0;
 
 //precisa iniciar com valores diferentes 
 unsigned int8 control_flags = 0b111, 
@@ -41,17 +28,24 @@ void leAdc(struct adc *leitura_adc) {
    struct adc adc_copy;
    adc_copy = *leitura_adc;
 
-   set_adc_channel(2);
+   set_adc_channel(ADC_BAT);
    delay_us(20);
    adc_copy.alimentacao = read_adc();
 
-   set_adc_channel(4);
+   set_adc_channel(ADC_ALIM);
    delay_us(20);
    adc_copy.bateria = read_adc();
 
    *leitura_adc = adc_copy;
 }
 
+//======================================================
+// Transforma valores de leitura adc em estados binarios
+// recebe: 
+//    struct adc com dois valores unsigned int8
+// retorna:
+//    unsigned int8 com dois últimos bitd válidos
+//======================================================
 unsigned int8 trataAdc(struct adc dados) {
   unsigned int8 control = 0b0000, limiteBateria = 150, limiteAlim = 100;
 
@@ -68,35 +62,93 @@ unsigned int8 trataAdc(struct adc dados) {
   return control;
 }
 
-unsigned char trataUart(){
+unsigned char trataUart() {
 
-   if(data != last_data){
+   if(data != last_data) {
       last_data = data;
 
-      if(data == COMANDO_BLOQUEIO){
+      if(data == COMANDO_BLOQUEIO) {
          output_high(LED2);
          return 0;
       }
-      else if(data == COMANDO_DESBLOQUEIO){
+      else if(data == COMANDO_DESBLOQUEIO) {
          output_low(LED2);
          return 0b100;
       }
       data = 0;
       output_toggle(LED1);
-      
    }
    return;
 }
 
-void checkState(unsigned int8 c_adc, unsigned int8 c_uart, unsigned int8 c_fim_curso){
-   
-   control_flags = c_adc + c_uart;
+unsigned char trataUartTeste() {
 
+   data -= 48;
+   if(data > 7){
+      return 0;
+   }
+   if(data != last_data) {
+      last_data = data;
+
+      if(data == '0') {
+         return 0;
+      }
+      else if(data == '1') {
+
+         return 0b100;
+      }
+      data = 0;
+      output_toggle(LED1);
+   }
+   return;
+}
+
+void blockMotor(unsigned int8 command) {
+   unsigned int1 fim_curso = 0;
+   
+   if(input(FIM_CURSO_IN)) {
+      //erro: motor em transicao fora do tempo DEBUG
+      return;
+   }
+   else if(command == status_motor) {
+      return;
+   }
+   else
+   {
+      status_motor = command;
+      if(command == TRUE) {
+         output_high(MOTOR1);
+         output_low(MOTOR2);
+      }
+      else {
+         output_high(MOTOR2);
+         output_low(MOTOR1);  
+      }
+
+      do {
+         //tempo de espera iniciar transicao
+         while(input(FIM_CURSO_IN)) {
+            //tempo de transicao do motor
+            fim_curso = 1;
+         }
+      }while(!fim_curso);
+   }
+}
+
+void turnBattery(unsigned int8 command){
+   output_bit(CARGA_BAT,command);
+}
+
+
+void controlState() {
+   
    if(control_flags != last_control_flags){
       last_control_flags = control_flags;
 
-      if(control_flags == 4) eeprom_grava(EP_CONTROL_FLAGS,1,control_flags); // DEBUG EEPROM
-
+      if(control_flags == 4){
+         eeprom_grava(EP_CONTROL_FLAGS,control_flags); // DEBUG EEPROM
+      }
+ 
       if(control_flags == 0b111) {
          blockMotor(FALSE);
          turnBattery(FALSE);
@@ -120,12 +172,12 @@ void main()
                  ctrl_uart = 0,      //bits de controle de dados
                  ctrl_fim_curso = 0; 
                  
-   unsigned char command = 0;                   //dados de comando pelo UART
+   unsigned char command = 0;        //dados de comando pelo UART
   
    //flags de controle de fim de curso, dados, tensao veiculo, tensao bateria
       
 
-   setup_adc_ports(sAN2 | sAN4);
+   //setup_adc_ports(sAN2 | sAN4); //nao e necessario quando se usa set_adc_channel()
    setup_adc(ADC_CLOCK_DIV_32);
 
    //===========REGISTRADORES===================================
@@ -146,21 +198,17 @@ void main()
  
    while (TRUE)
    {
-      if (um_segundo)
-      {
+      if (um_segundo) {
          um_segundo = 0;
 
-         /* leAdc(leitura_adc);
+         /* leAdc(&leitura_adc);
 
-         result_adc = trataAdc(leitura_adc); */
+         ctrl_adc = trataAdc(leitura_adc); 
          ctrl_uart = trataUart();
-         ctrl_adc = trataAdc(leitura_adc);
-         ctrl_fim_curso = trataFimCurso();
-         
-         check_state(ctrl_uart,ctrl_adc,ctrl_fim_curso);
+         control_flags = ctrl_adc + ctrl_uart;*/
+         control_flags = trataUart();
 
+         controlState();
       }
-      //TODO: User Code
-      //control_flags;
    }
 }

@@ -13,7 +13,7 @@ OptionString=+FM
 AdditionalOptionString=
 BuildRequired=1
 [Directories]
-Include=<default>\;C:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\headers\;C:\Program Files (x86)\PICC\Devices\;C:\Program Files (x86)\PICC\Drivers\
+Include=<default>\;C:\PROJETOS\Rede-CAN-PIC\headers\;C:\Program Files (x86)\PICC\Devices\;C:\Program Files (x86)\PICC\Drivers\
 Library=
 LinkerScript=
 [C:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\PIC16F1823\mecanico\mecanico]
@@ -53,7 +53,8 @@ Fixed=
 1=mecanico.c
 2=..\..\headers\placa_recep_antigo.h
 3=mecanico.h
-4=
+4=..\..\headers\functions.h
+5=
 [Units]
 Count=1
 1=mecanico (main)

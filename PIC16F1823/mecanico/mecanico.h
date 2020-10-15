@@ -10,3 +10,31 @@
 
 #pragma use rs232(baud=9600,parity=N,xmit=PIN_A0,rcv=PIN_A1,bits=8,stream=PORT1)
 
+#define FIM_CURSO_IN PIN_A2
+//#define FIM_CURSO    PIN_A3
+#define MOTOR1       PIN_A4
+#define MOTOR2       PIN_A5
+
+#define ADC_BAT      4
+#define ADC_ALIM     5
+//#define LED2         PIN_C2
+#define CARGA_BAT    PIN_C3
+#define LED1         PIN_C4
+#define LED2         PIN_C5
+
+#define PISCALEDSTATUS_F
+#define EEPROM_F
+#define TIMER0_F
+
+//EEPROM========================================
+//SELETOR DE FREQUENCIA - byte 0A
+#pragma ROM 0xF013 = {0x00}
+#define EP_CONTROL_FLAGS 0x0B,0x01
+
+//SELETOR DE FREQUENCIA - byte 0A
+#pragma ROM 0xF014 = {0x00}
+#define EP_ID 0x0C,0x01
+
+//SELETOR DE FREQUENCIA - byte 0A
+#pragma ROM 0xF015 = {0x00}
+#define EP_IS 0x0D,0x01

@@ -6,8 +6,7 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}",
                 "C:\\Program Files (x86)\\PICC\\Devices",
-                "${workspaceFolder}\\headers\\LCDEdit",
-                "${workspaceFolder}/headers"
+                "${workspaceFolder}\\headers"
             ],
             "defines": [
                 "_DEBUG",
