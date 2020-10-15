@@ -1,3 +1,5 @@
+#define DEBUG
+
 #include <mecanico.h>
 
 #define COMANDO_BLOQUEIO 'B'
@@ -10,13 +12,18 @@
 
 unsigned int8 data = 0, last_data = 0, status_motor = 0;
 
+#ifdef DEBUG
+   const char err_message[] = "err_message", //ascii 'ERR' quando pic recebe mensagem fora do intervalo 0 - 7
+              err_movement[] = "err_movement";
+#endif
+
 //precisa iniciar com valores diferentes 
 unsigned int8 control_flags = 0b111, 
               last_control_flags = 0b000; 
 
 #pragma INT_RDA
 void RDA_isr(void) {  
-   data = getc();
+   data = getch();
 }
 
 struct adc {
@@ -81,40 +88,44 @@ unsigned char trataUart() {
    return;
 }
 
-unsigned char trataUartTeste() {
+unsigned char trataUartTeste(unsigned char data_t) {
+   
+   if(data_t != last_data) {
+      last_data = data_t;
+      data_t -= 48;
 
-   data -= 48;
-   if(data > 7){
-      return 0;
-   }
-   if(data != last_data) {
-      last_data = data;
-
-      if(data == '0') {
-         return 0;
+      
+      if(data_t > 7){
+         printf(err_message); 
       }
-      else if(data == '1') {
 
-         return 0b100;
-      }
-      data = 0;
-      output_toggle(LED1);
+
+      return data_t;
    }
-   return;
+}
+
+void turnBattery(unsigned int8 command){
+   output_bit(CARGA_BAT,command);
 }
 
 void blockMotor(unsigned int8 command) {
    unsigned int1 fim_curso = 0;
    
+   #ifdef DEBUG
    if(input(FIM_CURSO_IN)) {
+      puts(err_movement);
       //erro: motor em transicao fora do tempo DEBUG
       return;
    }
-   else if(command == status_motor) {
+   #endif
+
+   if(command == status_motor) {
       return;
    }
    else
    {
+      turnBattery(TRUE);
+
       status_motor = command;
       if(command == TRUE) {
          output_high(MOTOR1);
@@ -126,29 +137,38 @@ void blockMotor(unsigned int8 command) {
       }
 
       do {
+         #ifdef DEBUG
+         putc('_');
+         #endif
+         
          //tempo de espera iniciar transicao
          while(input(FIM_CURSO_IN)) {
+            #ifdef DEBUG
+            putc('/');
+            output_high(PIN_C2);
+            #endif
+            
             //tempo de transicao do motor
             fim_curso = 1;
          }
       }while(!fim_curso);
+
+      #ifdef DEBUG
+      putc('|');
+      output_low(PIN_C2);
+      #endif
    }
 }
-
-void turnBattery(unsigned int8 command){
-   output_bit(CARGA_BAT,command);
-}
-
 
 void controlState() {
    
    if(control_flags != last_control_flags){
       last_control_flags = control_flags;
 
-      if(control_flags == 4){
-         eeprom_grava(EP_CONTROL_FLAGS,control_flags); // DEBUG EEPROM
+      if(control_flags > 7){
+         eeprom_grava(EP_CONTROL_FLAGS,control_flags);
       }
- 
+
       if(control_flags == 0b111) {
          blockMotor(FALSE);
          turnBattery(FALSE);
@@ -195,6 +215,7 @@ void main()
    leitura_adc.alimentacao = 200;
    leitura_adc.bateria = 180;
 
+   output_low(PIN_C2);/////////////////////////////////////////////////////////////////////////
  
    while (TRUE)
    {
@@ -206,8 +227,9 @@ void main()
          ctrl_adc = trataAdc(leitura_adc); 
          ctrl_uart = trataUart();
          control_flags = ctrl_adc + ctrl_uart;*/
-         control_flags = trataUart();
 
+         putc(control_flags + 48);
+         control_flags = trataUartTeste(data);
          controlState();
       }
    }
