@@ -1,0 +1,23 @@
+[PROJECT]
+Target=motor.hex
+Processor_Text=PIC12F1822
+CCSVerions=5.015
+Compiler=PCM
+CCSVersion=5.015
+[Target Data]
+FileList=motor.c
+[Directories]
+Include=C:\Program Files (x86)\PICC\Devices\;C:\Program Files (x86)\PICC\Drivers\;C:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\headers\
+[C:\Users\fernandoLab\Google Drive\Fernando_Lab\V3\CCS\12f1822\motor]
+Type=4
+[mru-list]
+1=motor.c
+[Opened Files]
+1=motor.c
+2=
+3=
+[motor.c]
+Type=4
+[Units]
+Count=1
+1=motor (main)

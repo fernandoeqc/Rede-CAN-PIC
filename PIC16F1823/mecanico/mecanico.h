@@ -15,8 +15,8 @@
 #define MOTOR1       PIN_A4
 #define MOTOR2       PIN_A5
 
-#define ADC_BAT      4
-#define ADC_ALIM     5
+#define ADC_BAT      4 //PIN_C0
+#define ADC_ALIM     5 //PIN_C1
 //#define LED2         PIN_C2
 #define CARGA_BAT    PIN_C3
 #define LED1         PIN_C4
@@ -26,7 +26,7 @@
 #define EEPROM_F
 #define TIMER0_F
 
-//EEPROM========================================
+//EEPROM===========================
 //SELETOR DE FREQUENCIA - byte 0A
 #pragma ROM 0xF013 = {0x00}
 #define EP_CONTROL_FLAGS 0x0B,0x01

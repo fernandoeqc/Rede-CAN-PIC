@@ -10,11 +10,13 @@
 #define TEMPOCICLOLEDS 30
 #include <functions.h>
 
-unsigned int8 data = 0, last_data = 0, status_motor = 0;
+unsigned int8 status_motor = 0;
 
 #ifdef DEBUG
-   const char err_message[] = "err_message", //ascii 'ERR' quando pic recebe mensagem fora do intervalo 0 - 7
-              err_movement[] = "err_movement";
+unsigned int8 data = '7', last_data = '7';
+
+char err_message[11] = "err_message", //ascii 'ERR' quando pic recebe mensagem fora do intervalo 0 - 7
+     err_movement[12] = "err_movement";
 #endif
 
 //precisa iniciar com valores diferentes 
@@ -65,7 +67,6 @@ unsigned int8 trataAdc(struct adc dados) {
   } if (dados.bateria < limiteBateria && dados.alimentacao < limiteAlim) {
     control = 0b0000;
   }
-
   return control;
 }
 
@@ -89,19 +90,19 @@ unsigned char trataUart() {
 }
 
 unsigned char trataUartTeste(unsigned char data_t) {
-   
+   unsigned int8 retorno;
+
+   retorno = data_t - 48;
    if(data_t != last_data) {
+      if(retorno > 7){
+         printf("err_message");
+         data = last_data;
+         retorno = last_data - 48;
+         return retorno;
+      }   
       last_data = data_t;
-      data_t -= 48;
-
-      
-      if(data_t > 7){
-         printf(err_message); 
-      }
-
-
-      return data_t;
    }
+   return retorno;
 }
 
 void turnBattery(unsigned int8 command){
@@ -113,7 +114,7 @@ void blockMotor(unsigned int8 command) {
    
    #ifdef DEBUG
    if(input(FIM_CURSO_IN)) {
-      puts(err_movement);
+      puts("err_movement");
       //erro: motor em transicao fora do tempo DEBUG
       return;
    }
@@ -128,34 +129,34 @@ void blockMotor(unsigned int8 command) {
 
       status_motor = command;
       if(command == TRUE) {
-         output_high(MOTOR1);
-         output_low(MOTOR2);
+         output_high(MOTOR2);
+         output_low(MOTOR1);
       }
       else {
-         output_high(MOTOR2);
-         output_low(MOTOR1);  
+         output_high(MOTOR1);
+         output_low(MOTOR2);
       }
 
       do {
          #ifdef DEBUG
-         putc('_');
+         putchar('_');
          #endif
          
          //tempo de espera iniciar transicao
          while(input(FIM_CURSO_IN)) {
             #ifdef DEBUG
-            putc('/');
-            output_high(PIN_C2);
+            putchar('/');
             #endif
             
             //tempo de transicao do motor
+            delay_ms(1000);
             fim_curso = 1;
          }
+         delay_ms(1000);
       }while(!fim_curso);
 
       #ifdef DEBUG
-      putc('|');
-      output_low(PIN_C2);
+      putchar('|');
       #endif
    }
 }
@@ -173,13 +174,21 @@ void controlState() {
          blockMotor(FALSE);
          turnBattery(FALSE);
       }
+
       else if(control_flags == 0b110) {
          blockMotor(FALSE);
          turnBattery(TRUE);
       }
+      
+      //bloqueia mecanico
       else{
          blockMotor(TRUE);
          turnBattery(TRUE);
+      }
+
+      //desliga bateria quando carga esta completa
+      if(bit_test(control_flags,0)){
+         turnBattery(FALSE);
       }
    }
 }
@@ -193,6 +202,7 @@ void main()
                  ctrl_fim_curso = 0; 
                  
    unsigned char command = 0;        //dados de comando pelo UART
+
   
    //flags de controle de fim de curso, dados, tensao veiculo, tensao bateria
       
@@ -215,8 +225,9 @@ void main()
    leitura_adc.alimentacao = 200;
    leitura_adc.bateria = 180;
 
-   output_low(PIN_C2);/////////////////////////////////////////////////////////////////////////
- 
+   output_high(MOTOR1);
+   output_low(MOTOR2);
+
    while (TRUE)
    {
       if (um_segundo) {
@@ -228,7 +239,7 @@ void main()
          ctrl_uart = trataUart();
          control_flags = ctrl_adc + ctrl_uart;*/
 
-         putc(control_flags + 48);
+         putc(data);
          control_flags = trataUartTeste(data);
          controlState();
       }

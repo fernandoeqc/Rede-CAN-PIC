@@ -6,7 +6,9 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}",
                 "C:\\Program Files (x86)\\PICC\\Devices",
-                "${workspaceFolder}\\headers"
+                "${workspaceFolder}\\headers",
+                "C:\\Users\\fernandoLab\\Documents\\GitHub\\Rede-CAN-PIC\\",
+                "${workspaceFolder}/PIC12f1822"
             ],
             "defines": [
                 "_DEBUG",

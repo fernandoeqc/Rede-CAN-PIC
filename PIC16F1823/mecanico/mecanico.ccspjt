@@ -13,7 +13,7 @@ OptionString=+FM
 AdditionalOptionString=
 BuildRequired=1
 [Directories]
-Include=<default>\;C:\PROJETOS\Rede-CAN-PIC\headers\;C:\Program Files (x86)\PICC\Devices\;C:\Program Files (x86)\PICC\Drivers\
+Include=C:\Program Files (x86)\PICC\Devices\;C:\PROJETOS\Rede-CAN-PIC\headers\;C:\Program Files (x86)\PICC\Drivers\;C:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\headers\
 Library=
 LinkerScript=
 [C:\Users\fernandoLab\Documents\GitHub\Rede-CAN-PIC\PIC16F1823\mecanico\mecanico]
