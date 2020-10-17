@@ -13,5 +13,9 @@
     "files.associations": {
         "devboard.C": "cpp",
         "LCDedit.C": "cpp"
-    }
+    },
+    "python.testing.promptToConfigure": false,
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false
 }
