@@ -95,7 +95,7 @@ unsigned char trataUartTeste(unsigned char data_t) {
    retorno = data_t - 48;
    if(data_t != last_data) {
       if(retorno > 7){
-         printf("err_message");
+         printf("err_message\n");
          data = last_data;
          retorno = last_data - 48;
          return retorno;
@@ -114,7 +114,7 @@ void blockMotor(unsigned int8 command) {
    
    #ifdef DEBUG
    if(input(FIM_CURSO_IN)) {
-      puts("err_movement");
+      puts("err_movement\n");
       //erro: motor em transicao fora do tempo DEBUG
       return;
    }

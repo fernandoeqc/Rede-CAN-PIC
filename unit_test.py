@@ -43,8 +43,8 @@ while True:
 
     buf = arduino_uno.inWaiting()
     if buf > 0:
-        response_raw = str(arduino_uno.readline())
-        response = response_raw[2:][:-3]
+        response = arduino_uno.readline()
+        # response = response_raw[2:][:-3]
 
         print("resposta:", response)
 
