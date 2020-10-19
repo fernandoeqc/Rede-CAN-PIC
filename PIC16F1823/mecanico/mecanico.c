@@ -139,13 +139,13 @@ void blockMotor(unsigned int8 command) {
 
       do {
          #ifdef DEBUG
-         putchar('_');
+         printf("_\n");
          #endif
          
          //tempo de espera iniciar transicao
          while(input(FIM_CURSO_IN)) {
             #ifdef DEBUG
-            putchar('/');
+            printf("/\n");
             #endif
             
             //tempo de transicao do motor
@@ -156,7 +156,7 @@ void blockMotor(unsigned int8 command) {
       }while(!fim_curso);
 
       #ifdef DEBUG
-      putchar('|');
+      printf("|\n");
       #endif
    }
 }
@@ -239,7 +239,7 @@ void main()
          ctrl_uart = trataUart();
          control_flags = ctrl_adc + ctrl_uart;*/
 
-         putc(data);
+         printf("%c\n",data);
          control_flags = trataUartTeste(data);
          controlState();
       }
