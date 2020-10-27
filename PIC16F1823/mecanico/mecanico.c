@@ -2,51 +2,64 @@
 
 #include <mecanico.h>
 
-#define COMANDO_BLOQUEIO 'B'
-#define COMANDO_DESBLOQUEIO 'D'
+#define COMANDO_BLOQUEIO       'B'
+#define COMANDO_DESBLOQUEIO    'D'
+#define BLOCK_TIMER            10
 
+#define LIMITE_BATERIA         220 // bateria com 8.7v 
+#define LIMITE_ALIMENTACAO     90  // power com 11v
 //constante da funcao piscaLedStatus()
 //1 TEMPOCICLOLEDS == 200mS na configuracao atual
 #define TEMPOCICLOLEDS 30
 #include <functions.h>
 
+unsigned int8 control_adc = 0x01;
 unsigned int8 status_motor = 0;
-
-#ifdef DEBUG
-unsigned int8 data = '7', last_data = '7';
-
-char err_message[11] = "err_message", //ascii 'ERR' quando pic recebe mensagem fora do intervalo 0 - 7
-     err_movement[12] = "err_movement";
-#endif
+unsigned int8 data = 'D', last_data = 0;
 
 //precisa iniciar com valores diferentes 
 unsigned int8 control_flags = 0b111, 
-              last_control_flags = 0b000; 
+              last_control_flags = 0b000,
+              count_timer = 0; 
+
+#ifdef DEBUG
+char *err_message = "err_message", //ascii 'ERR' quando pic recebe mensagem fora do intervalo 0 - 7
+     *err_movement = "err_movement";
+#endif
+
 
 #pragma INT_RDA
 void RDA_isr(void) {  
    data = getch();
 }
 
+
 struct adc {
    unsigned int8 bateria;
    unsigned int8 alimentacao;
 };
 
-void leAdc(struct adc *leitura_adc) {
+
+void leAdc (struct adc *leitura_adc) {
    struct adc adc_copy;
    adc_copy = *leitura_adc;
 
-   set_adc_channel(ADC_BAT);
-   delay_us(20);
-   adc_copy.alimentacao = read_adc();
-
-   set_adc_channel(ADC_ALIM);
-   delay_us(20);
-   adc_copy.bateria = read_adc();
+   if (control_adc) {
+      control_adc = 0x00;
+      adc_copy.alimentacao = read_adc();
+      delay_us(20);
+      set_adc_channel(ADC_BAT);
+   }
+   else {
+      control_adc = 0x01;
+      adc_copy.bateria = read_adc();
+      delay_us(20);
+      set_adc_channel(ADC_ALIM);
+   }
 
    *leitura_adc = adc_copy;
 }
+
 
 //======================================================
 // Transforma valores de leitura adc em estados binarios
@@ -54,40 +67,62 @@ void leAdc(struct adc *leitura_adc) {
 //    struct adc com dois valores unsigned int8
 // retorna:
 //    unsigned int8 com dois últimos bitd válidos
+//    ADD.:David
 //======================================================
-unsigned int8 trataAdc(struct adc dados) {
-  unsigned int8 control = 0b0000, limiteBateria = 150, limiteAlim = 100;
+unsigned int8 trataAdc (struct adc dados) {
+  unsigned int8 control = 0b0000;
 
-  if (dados.bateria >= limiteBateria && dados.alimentacao >= limiteAlim) {
+  if (dados.bateria >= LIMITE_BATERIA && dados.alimentacao >= LIMITE_ALIMENTACAO) {
     control = 0b0011;
-  } if (dados.bateria >= limiteBateria && dados.alimentacao < limiteAlim) {
+
+  } if (dados.bateria < LIMITE_BATERIA && dados.alimentacao >= LIMITE_ALIMENTACAO) {
     control = 0b0010;
-  } if (dados.bateria < limiteBateria && dados.alimentacao >= limiteAlim) {
+
+  } if (dados.bateria >= LIMITE_BATERIA && dados.alimentacao < LIMITE_ALIMENTACAO) {
     control = 0b0001;
-  } if (dados.bateria < limiteBateria && dados.alimentacao < limiteAlim) {
+
+  } if (dados.bateria < LIMITE_BATERIA && dados.alimentacao < LIMITE_ALIMENTACAO) {
     control = 0b0000;
   }
+
   return control;
 }
 
-unsigned char trataUart() {
 
-   if(data != last_data) {
-      last_data = data;
-
-      if(data == COMANDO_BLOQUEIO) {
-         output_high(LED2);
-         return 0;
-      }
-      else if(data == COMANDO_DESBLOQUEIO) {
-         output_low(LED2);
-         return 0b100;
-      }
-      data = 0;
-      output_toggle(LED1);
+void seriaTimelMonitor(void) {
+   count_timer++;
+   if(count_timer > BLOCK_TIMER){
+      count_timer = 0;
+      //bloqueia no proximo segundo
+      data = 'B';
    }
-   return;
 }
+
+
+unsigned char trataUart(void) {
+   unsigned int8 retorno;
+   
+   last_data = data;
+
+   if(data == COMANDO_BLOQUEIO) {
+      output_high(LED2);
+      retorno = 0;
+   }
+   else if(data == COMANDO_DESBLOQUEIO) {
+      output_low(LED2);
+      count_timer = 0;
+      retorno = 0b100;
+   }
+   else{
+      //comando desconhecido
+      //atualmente bloqueia imediato se receber
+      //comando desconhecido
+   }
+   output_toggle(LED1);
+
+   return retorno;
+}
+
 
 unsigned char trataUartTeste(unsigned char data_t) {
    unsigned int8 retorno;
@@ -105,9 +140,11 @@ unsigned char trataUartTeste(unsigned char data_t) {
    return retorno;
 }
 
+
 void turnBattery(unsigned int8 command){
    output_bit(CARGA_BAT,command);
 }
+
 
 void blockMotor(unsigned int8 command) {
    unsigned int1 fim_curso = 0;
@@ -129,12 +166,14 @@ void blockMotor(unsigned int8 command) {
 
       status_motor = command;
       if(command == TRUE) {
-         output_high(MOTOR2);
          output_low(MOTOR1);
+         delay_ms(500);
+         output_high(MOTOR2);
       }
       else {
-         output_high(MOTOR1);
          output_low(MOTOR2);
+         delay_ms(500);
+         output_high(MOTOR1);
       }
 
       do {
@@ -142,6 +181,10 @@ void blockMotor(unsigned int8 command) {
          printf("_\n");
          #endif
          
+         delay_ms(1000);
+
+         printf("_\n");
+
          //tempo de espera iniciar transicao
          while(input(FIM_CURSO_IN)) {
             #ifdef DEBUG
@@ -152,21 +195,25 @@ void blockMotor(unsigned int8 command) {
             delay_ms(1000);
             fim_curso = 1;
          }
-         delay_ms(1000);
+         
       }while(!fim_curso);
 
       #ifdef DEBUG
       printf("|\n");
       #endif
+
+      fim_curso = 0;
    }
 }
 
-void controlState() {
+
+void controlState(void) {
    
    if(control_flags != last_control_flags){
       last_control_flags = control_flags;
 
       if(control_flags > 7){
+         //ERRO! tamanho max. 3 bits
          eeprom_grava(EP_CONTROL_FLAGS,control_flags);
       }
 
@@ -193,8 +240,8 @@ void controlState() {
    }
 }
 
-void main()
-{
+
+void main() {
    unsigned int8 adc1 = 0,           //batteria
                  adc2 = 0,           //alimentacao
                  ctrl_adc = 0,
@@ -221,27 +268,44 @@ void main()
    enable_interrupts(GLOBAL);                // habilitar interr global
    //----------------------------------------------------------
 
+   set_adc_channel(ADC_ALIM);
    struct adc leitura_adc;
-   leitura_adc.alimentacao = 200;
-   leitura_adc.bateria = 180;
+   leitura_adc.alimentacao = 255;
+   leitura_adc.bateria = 255;
+
+   output_low(LED1);
+   output_low(LED2);
+
+   //DEABLOQUADO INICIALMENTE
+   output_low(MOTOR2);
+   output_toggle(LED2);
+   delay_ms(500);
+   output_toggle(LED2);
+   delay_ms(500);
 
    output_high(MOTOR1);
-   output_low(MOTOR2);
+   output_toggle(LED2);
+   delay_ms(500);
+   output_toggle(LED2);
+   delay_ms(500);
 
    while (TRUE)
    {
       if (um_segundo) {
          um_segundo = 0;
 
-         /* leAdc(&leitura_adc);
+         leAdc(&leitura_adc);
 
          ctrl_adc = trataAdc(leitura_adc); 
          ctrl_uart = trataUart();
-         control_flags = ctrl_adc + ctrl_uart;*/
+         control_flags = ctrl_adc + ctrl_uart;
 
-         printf("%c\n",data);
-         control_flags = trataUartTeste(data);
+         printf("%u, %u, %c: %u; \r\n",leitura_adc.alimentacao, leitura_adc.bateria, data, control_flags);
+         
+         output_toggle(LED1);
          controlState();
+
+         //seriaTimelMonitor();
       }
    }
 }
