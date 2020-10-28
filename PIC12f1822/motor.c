@@ -7,7 +7,7 @@ void fim_curso(int1 status)
 {
    unsigned int sec_t = sec, count = 0;
 
-   output_low(PIN_A5);
+   output_high(PIN_A5);
 
    while (count < 5)
    {
@@ -18,7 +18,7 @@ void fim_curso(int1 status)
       }
    }
 
-   output_high(PIN_A5);
+   output_low(PIN_A5);
 }
 
 void main()
@@ -36,7 +36,7 @@ void main()
    enable_interrupts(GLOBAL); // habilitar interr global
    //----------------------------------------------------------
 
-   output_high(PIN_A5);
+   output_low(PIN_A5);
 
    while (TRUE)
    {

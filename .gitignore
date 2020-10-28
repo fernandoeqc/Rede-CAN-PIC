@@ -3,10 +3,7 @@
 .vscode/
 
 
-
-
 # Outputs
-*.cof
 *.err
 *.esym
 *.lst
