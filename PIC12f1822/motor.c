@@ -23,7 +23,7 @@ void fim_curso(int1 status)
 
 void main()
 {
-   int1 status_bloqueio = 0, status_bloqueio_last = 1;
+   int1 status_bloqueio = 0, status_bloqueio_last = 0;
 
    //===========REGISTRADORES===================================
    disable_interrupts(GLOBAL); // habilitar interr global
@@ -37,6 +37,7 @@ void main()
    //----------------------------------------------------------
 
    output_low(PIN_A5);
+   output_low(PIN_A4);
 
    while (TRUE)
    {

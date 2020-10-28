@@ -151,7 +151,7 @@ void blockMotor(unsigned int8 command) {
    
    #ifdef DEBUG
    if(input(FIM_CURSO_IN)) {
-      puts("err_movement\n");
+      puts("err_movement\r\n");
       //erro: motor em transicao fora do tempo DEBUG
       return;
    }
@@ -178,17 +178,15 @@ void blockMotor(unsigned int8 command) {
 
       do {
          #ifdef DEBUG
-         printf("_\n");
+         printf("_\r\n");
          #endif
          
          delay_ms(1000);
 
-         printf("_\n");
-
          //tempo de espera iniciar transicao
          while(input(FIM_CURSO_IN)) {
             #ifdef DEBUG
-            printf("/\n");
+            printf("/\r\n");
             #endif
             
             //tempo de transicao do motor
@@ -199,7 +197,7 @@ void blockMotor(unsigned int8 command) {
       }while(!fim_curso);
 
       #ifdef DEBUG
-      printf("|\n");
+      printf("|\r\n");
       #endif
 
       fim_curso = 0;
