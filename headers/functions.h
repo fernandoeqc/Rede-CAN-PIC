@@ -92,7 +92,7 @@
 
 
 #ifdef TIMER0_F
-    #define int_per_sec 2
+    #define int_per_sec 10
     
     volatile unsigned int   counter = 0,
                             per = 0,

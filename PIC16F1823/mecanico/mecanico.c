@@ -4,6 +4,8 @@
 
 #define COMANDO_BLOQUEIO       'B'
 #define COMANDO_DESBLOQUEIO    'D'
+#define COMANDO_RESTART        'R'
+
 #define BLOCK_TIMER            10
 
 #define LIMITE_BATERIA         220 // bateria com 8.7v 
@@ -15,7 +17,7 @@
 
 unsigned int8 control_adc = 0x01;
 unsigned int8 status_motor = 0;
-unsigned int8 data = 'D', last_data = 0;
+unsigned int data = 'D', last_data = 0;
 
 //precisa iniciar com valores diferentes 
 unsigned int8 control_flags = 0b111, 
@@ -108,11 +110,17 @@ unsigned char trataUart(void) {
       output_high(LED2);
       retorno = 0;
    }
+   
    else if(data == COMANDO_DESBLOQUEIO) {
       output_low(LED2);
       count_timer = 0;
       retorno = 0b100;
    }
+
+   else if (data == COMANDO_RESTART) {
+      reset_cpu();
+   }
+  
    else{
       //comando desconhecido
       //atualmente bloqueia imediato se receber
@@ -158,6 +166,9 @@ void blockMotor(unsigned int8 command) {
    #endif
 
    if(command == status_motor) {
+      #ifdef DEBUG
+         printf("cmd = status_motor\r\n");
+      #endif
       return;
    }
    else
@@ -166,11 +177,17 @@ void blockMotor(unsigned int8 command) {
 
       status_motor = command;
       if(command == TRUE) {
+         #ifdef DEBUG
+            printf("motor bloq\r\n");
+         #endif
          output_low(MOTOR1);
          delay_ms(500);
          output_high(MOTOR2);
       }
       else {
+         #ifdef DEBUG
+            printf("motor desbloq\r\n");
+         #endif
          output_low(MOTOR2);
          delay_ms(500);
          output_high(MOTOR1);
@@ -178,7 +195,7 @@ void blockMotor(unsigned int8 command) {
 
       do {
          #ifdef DEBUG
-         printf("_\r\n");
+            printf("_\r\n");
          #endif
          
          delay_ms(1000);
@@ -186,7 +203,7 @@ void blockMotor(unsigned int8 command) {
          //tempo de espera iniciar transicao
          while(input(FIM_CURSO_IN)) {
             #ifdef DEBUG
-            printf("/\r\n");
+               printf("/\r\n");
             #endif
             
             //tempo de transicao do motor
@@ -197,7 +214,7 @@ void blockMotor(unsigned int8 command) {
       }while(!fim_curso);
 
       #ifdef DEBUG
-      printf("|\r\n");
+         printf("|\r\n");
       #endif
 
       fim_curso = 0;
@@ -208,6 +225,9 @@ void blockMotor(unsigned int8 command) {
 void controlState(void) {
    
    if(control_flags != last_control_flags){
+      #ifdef DEBUG
+         printf("alt: %u\r\n", last_control_flags ^ control_flags);
+      #endif
       last_control_flags = control_flags;
 
       if(control_flags > 7){
