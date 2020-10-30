@@ -102,8 +102,7 @@ void seriaTimelMonitor(void) {
 
 
 unsigned char trataUart(void) {
-   unsigned int8 retorno;
-   
+   static unsigned int8 retorno = 0b100;
    last_data = data;
 
    if(data == COMANDO_BLOQUEIO) {
