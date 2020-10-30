@@ -15,8 +15,8 @@
 #define TEMPOCICLOLEDS 30
 #include <functions.h>
 
-unsigned int8 control_adc = 0x01;
-unsigned int8 status_motor = 0;
+
+
 unsigned int data = 'D', last_data = 0;
 
 //precisa iniciar com valores diferentes 
@@ -43,6 +43,7 @@ struct adc {
 
 
 void leAdc (struct adc *leitura_adc) {
+   static unsigned int8 control_adc = 0x01;
    struct adc adc_copy;
    adc_copy = *leitura_adc;
 
@@ -154,6 +155,7 @@ void turnBattery(unsigned int8 command){
 
 
 void blockMotor(unsigned int8 command) {
+   static unsigned int8 status_motor = 0;
    unsigned int1 fim_curso = 0;
    
    #ifdef DEBUG
