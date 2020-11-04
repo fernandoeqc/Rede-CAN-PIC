@@ -8,8 +8,13 @@
 
 #define BLOCK_TIMER            10
 
-#define LIMITE_BATERIA         220 // bateria com 8.7v 
-#define LIMITE_ALIMENTACAO     90  // power com 11v
+#define LIMITE_BATERIA         220  // bateria com 8.7v 
+#define LIMITE_ALIMENTACAO     90   // power com 11v
+
+#define WAIT_INIT_M            5    // tempo de espera motor iniciar rotacao (s)
+#define WAIT_FINISH_M          25   // tempo de esnera motor finalizar rotacao (s)
+
+
 //constante da funcao piscaLedStatus()
 //1 TEMPOCICLOLEDS == 200mS na configuracao atual
 #define TEMPOCICLOLEDS 30
@@ -106,13 +111,11 @@ unsigned char trataUart(void) {
    last_data = data;
 
    if(data == COMANDO_BLOQUEIO) {
-      output_high(LED2);
       retorno = 0;
    }
    
    else if(data == COMANDO_DESBLOQUEIO) {
-      output_low(LED2);
-      count_timer = 0;
+      count_timer = 0;     //refatorar
       retorno = 0b100;
    }
 
@@ -125,7 +128,6 @@ unsigned char trataUart(void) {
       //atualmente bloqueia imediato se receber
       //comando desconhecido
    }
-   output_toggle(LED1);
 
    return retorno;
 }
@@ -150,11 +152,14 @@ unsigned char trataUartTeste(unsigned char data_t) {
 
 void turnBattery(unsigned int8 command){
    output_bit(CARGA_BAT,command);
+   output_bit(LED2,command);
 }
 
 
 void blockMotor(unsigned int8 command) {
    unsigned int1 fim_curso = 0;
+   unsigned int8 count_wait_finish = 0,
+                 count_wait_init = 0;
    
    #ifdef DEBUG
    if(input(FIM_CURSO_IN)) {
@@ -170,8 +175,7 @@ void blockMotor(unsigned int8 command) {
       #endif
       return;
    }
-   else
-   {
+   else {
       turnBattery(TRUE);
 
       status_motor = command;
@@ -207,10 +211,25 @@ void blockMotor(unsigned int8 command) {
             
             //tempo de transicao do motor
             delay_ms(1000);
+
+            count_wait_finish++;
+            if (count_wait_finish > WAIT_FINISH_M) {
+               printf("ESPERA FIM ROTACAO EXCEDIDO");
+               //salvar comandos e reiniciar 
+               reset_cpu();
+            }
+
             fim_curso = 1;
          }
+
+         count_wait_init++;
+         if (count_wait_init > WAIT_INIT_M) {
+            printf("ESPERA INICIO ROTACAO EXCEDIDO");
+            //salvar comandos e reiniciar 
+            reset_cpu();
+         }
          
-      }while(!fim_curso);
+      } while (!fim_curso);
 
       #ifdef DEBUG
          printf("|\r\n");
@@ -261,8 +280,8 @@ void controlState(void) {
 void main() {
    unsigned int8 adc1 = 0,           //batteria
                  adc2 = 0,           //alimentacao
-                 ctrl_adc = 0,
-                 ctrl_uart = 0,      //bits de controle de dados
+                 ctrl_adc = 0b11,
+                 ctrl_uart = 0b100,      //bits de controle de dados
                  ctrl_fim_curso = 0; 
                  
    unsigned char command = 0;        //dados de comando pelo UART
@@ -306,15 +325,15 @@ void main() {
    output_toggle(LED2);
    delay_ms(500);
 
-   while (TRUE)
-   {
+   while (TRUE) {
       if (um_segundo) {
          um_segundo = 0;
 
          leAdc(&leitura_adc);
 
-         ctrl_adc = trataAdc(leitura_adc); 
+         
          ctrl_uart = trataUart();
+         //==control_flags = trataUartTeste(data);
          control_flags = ctrl_adc + ctrl_uart;
 
          printf("%u, %u, %c: %u; \r\n",leitura_adc.alimentacao, leitura_adc.bateria, data, control_flags);
@@ -323,6 +342,11 @@ void main() {
          controlState();
 
          //seriaTimelMonitor();
+      }
+      
+      if (um_minuto) {
+         um_minuto = 0;
+         ctrl_adc = trataAdc(leitura_adc); 
       }
    }
 }
