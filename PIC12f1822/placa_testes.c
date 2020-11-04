@@ -3,25 +3,15 @@
 
 #include <functions.h>
 
-
-unsigned int data = 'D', last_data = 0;
-
-
 void tabelaVerdade(void) {
       
 
 }
 
 
-void enviaUart(int data) {
-
-}
-
-
 void main()
 {
-   int8 conta_seg = 0;
-
+   
    //===========REGISTRADORES===================================
    disable_interrupts(GLOBAL); // habilitar interr global
    enable_interrupts(INT_RDA); //UART
@@ -33,20 +23,11 @@ void main()
    enable_interrupts(GLOBAL); // habilitar interr global
    //----------------------------------------------------------
    
-   while(TRUE) {
+   while(true) {
       if (um_segundo) {
-         um_segundo = 0;
-
-         enviaUart(data);
-
-         conta_seg++;
-         if (conta_seg == 15) {
-            conta_seg = 0;
-
-            enviaComando();
-         }
-
-
+      
+      
       }
    }
+
 }
